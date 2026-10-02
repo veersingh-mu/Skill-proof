@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, UserCheck } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   type CandidateVerificationSession,
@@ -11,6 +11,7 @@ import {
 } from "@/lib/evidence";
 import { EvidenceGraphView } from "./evidence-graph-view";
 import { CandidateHeader } from "../dashboard/candidate-header";
+import { CandidateModeBanner } from "@/components/shared/candidate-mode-banner";
 
 export function EvidencePageView() {
   const [sessionState] = useState<{
@@ -39,21 +40,13 @@ export function EvidencePageView() {
 
   return (
     <div className="space-y-6 pb-12">
-      {isSample && (
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl border border-blue-400/25 bg-blue-400/[0.06] text-xs text-blue-200">
-          <div className="flex items-center gap-2.5">
-            <UserCheck className="size-4 text-blue-400 shrink-0" />
-            <span>
-              <strong>Reference Candidate Mode:</strong> Displaying graph for @{session.githubUsername}. Run your analysis at <Link href="/analyze" className="underline font-semibold hover:text-white">/analyze</Link>.
-            </span>
-          </div>
-          <Button asChild size="sm" variant="outline" className="text-xs border-blue-400/40 text-blue-100 hover:bg-blue-400/20 shrink-0 h-8">
-            <Link href="/dashboard">
-              Back to Dashboard
-            </Link>
-          </Button>
-        </div>
-      )}
+      <CandidateModeBanner
+        isSample={isSample}
+        githubUsername={session.githubUsername}
+        candidateName={session.candidate.name}
+        pageContext="evidence"
+        showBackToDashboard={true}
+      />
 
       <CandidateHeader
         candidateName={session.candidate.name || "Candidate"}

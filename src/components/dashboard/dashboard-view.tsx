@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { FileSearch, UserCheck } from "lucide-react";
+import { FileSearch } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   type CandidateVerificationSession,
@@ -18,6 +18,7 @@ import { SkillVerificationTable } from "./skill-verification-table";
 import { GitHubActivitySummary } from "./github-activity-summary";
 import { EvidenceSourceSummary } from "./evidence-source-summary";
 import { EvidenceGraphView } from "@/components/graph";
+import { CandidateModeBanner } from "@/components/shared/candidate-mode-banner";
 
 export function DashboardView() {
   const [sessionState, setSessionState] = useState<{
@@ -76,27 +77,14 @@ export function DashboardView() {
 
   return (
     <div className="space-y-8 pb-12">
-      {/* Notice if viewing reference data */}
-      {isSample && (
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl border border-blue-400/25 bg-blue-400/[0.06] text-xs text-blue-200">
-          <div className="flex items-center gap-2.5">
-            <UserCheck className="size-4 text-blue-400 shrink-0" />
-            <span>
-              <strong>Reference Candidate Mode:</strong> Displaying authentic Phase 4 verification data for <strong>@{githubUsername}</strong>. Run your own analysis at <Link href="/analyze" className="underline font-semibold hover:text-white">/analyze</Link>.
-            </span>
-          </div>
-          <Button
-            asChild
-            size="sm"
-            variant="outline"
-            className="text-xs border-blue-400/40 text-blue-100 hover:bg-blue-400/20 shrink-0 h-8"
-          >
-            <Link href="/analyze">
-              Upload New Resume
-            </Link>
-          </Button>
-        </div>
-      )}
+      {/* Notice if viewing reference data vs live data */}
+      <CandidateModeBanner
+        isSample={isSample}
+        githubUsername={githubUsername}
+        candidateName={candidate.name}
+        pageContext="dashboard"
+        showBackToDashboard={false}
+      />
 
       {/* 1. Candidate Header (Requirement 10) */}
       <CandidateHeader

@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { AlertTriangle, CheckCircle2, FileSearch, UserCheck } from "lucide-react";
+import { AlertTriangle, CheckCircle2, FileSearch } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { createSampleVerificationSession } from "@/lib/evidence/sample-session";
 import {
@@ -18,6 +18,7 @@ import { JobMatchSummary } from "./job-match-summary";
 import { JobMatchResults } from "./job-match-results";
 import { GapSummaryCards } from "@/components/gaps/gap-summary-cards";
 import { GapList } from "@/components/gaps/gap-list";
+import { CandidateModeBanner } from "@/components/shared/candidate-mode-banner";
 
 export function JobMatchingView() {
   const [sessionState] = useState<{
@@ -123,27 +124,14 @@ export function JobMatchingView() {
 
   return (
     <div className="space-y-8 pb-16 max-w-6xl mx-auto">
-      {/* Reference candidate banner if viewing fallback */}
-      {isSample && (
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl border border-blue-400/25 bg-blue-400/[0.06] text-xs text-blue-200">
-          <div className="flex items-center gap-2.5">
-            <UserCheck className="size-4 text-blue-400 shrink-0" />
-            <span>
-              <strong>Reference Candidate Mode:</strong> Comparing requirements against verified evidence for <strong>{candidateName}</strong> (<strong>@{githubUsername}</strong>).
-            </span>
-          </div>
-          <Button
-            asChild
-            size="sm"
-            variant="outline"
-            className="text-xs border-blue-400/40 text-blue-100 hover:bg-blue-400/20 shrink-0 h-8"
-          >
-            <Link href="/analyze">
-              Analyze Your Resume
-            </Link>
-          </Button>
-        </div>
-      )}
+      {/* Reference candidate banner vs live banner */}
+      <CandidateModeBanner
+        isSample={isSample}
+        githubUsername={githubUsername}
+        candidateName={candidateName}
+        pageContext="jobs"
+        showBackToDashboard={true}
+      />
 
       {/* Candidate Verification Context Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl border border-border/70 bg-card/60 shadow-sm">

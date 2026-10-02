@@ -22,6 +22,7 @@ import { VerificationTimeline } from "./verification-timeline";
 import { TaskHistory } from "./task-history";
 import { RemainingGaps } from "./remaining-gaps";
 import { JobMatchContext } from "./job-match-context";
+import { CandidateModeBanner } from "@/components/shared/candidate-mode-banner";
 
 function loadInitialPortfolio(): SkillProofPortfolio {
   if (typeof window === "undefined") {
@@ -68,9 +69,20 @@ export function PortfolioView() {
   }
 
   const { candidate, summary, skills, verificationHistory, tasks, skillGaps, jobMatch } = portfolio;
+  const isSample = typeof window !== "undefined"
+    ? (!loadVerificationSession() || candidate.githubUsername === "pratyushwakde24-source")
+    : true;
 
   return (
     <div className="space-y-8 pb-16 max-w-6xl mx-auto">
+      <CandidateModeBanner
+        isSample={isSample}
+        githubUsername={candidate.githubUsername || "pratyushwakde24-source"}
+        candidateName={candidate.name}
+        pageContext="portfolio"
+        showBackToDashboard={true}
+      />
+
       {/* 1. Header & Candidate Summary */}
       <div className="rounded-2xl border border-[#E7DCD1] bg-white p-6 sm:p-8 space-y-5 shadow-xs">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
