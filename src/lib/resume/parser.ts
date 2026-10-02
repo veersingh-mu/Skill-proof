@@ -1,5 +1,5 @@
 import "server-only";
-import { PDFParse } from "pdf-parse";
+import "@/lib/resume/polyfill";
 
 export const MAX_RESUME_BYTES = 5 * 1024 * 1024;
 const MIN_EXTRACTED_CHARACTERS = 20;
@@ -18,15 +18,23 @@ export function validateResumeFile({ filename, mimeType, size, signature }: { fi
 }
 
 export async function parseResumePdf(data: Uint8Array, filename: string): Promise<ParsedResume> {
-  let parser: PDFParse | undefined;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let parser: any;
   try {
+    const { PDFParse } = await import("pdf-parse");
     parser = new PDFParse({ data });
     const result = await parser.getText();
-    const text = result.text.replace(/\u0000/g, "").replace(/\s+\n/g, "\n").trim();
+    const text = (result.text || "").replace(/\u0000/g, "").replace(/\s+\n/g, "\n").trim();
     if (text.length < MIN_EXTRACTED_CHARACTERS) throw new ResumeParseError("NO_EXTRACTABLE_TEXT", "Text could not be extracted from this PDF. Please upload a text-based resume.");
-    return { text, metadata: { filename: filename.replace(/[\\/]/g, "_"), pageCount: result.total } };
+    return { text, metadata: { filename: filename.replace(/[\\/]/g, "_"), pageCount: result.total ?? 1 } };
   } catch (error) {
     if (error instanceof ResumeParseError) throw error;
     throw new ResumeParseError("CORRUPT_PDF", "Unable to process this resume. Please upload another text-based PDF.");
-  } finally { await parser?.destroy(); }
+  } finally {
+    try {
+      await parser?.destroy();
+    } catch {
+      // ignore parser cleanup errors
+    }
+  }
 }

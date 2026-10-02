@@ -150,8 +150,42 @@ export function ResumeAnalysisFlow() {
       const body = new FormData();
       body.append("resume", file);
       const response = await fetch("/api/resumes/analyze", { method: "POST", body });
-      const data = (await response.json()) as AnalysisResponse & { error?: string };
-      if (!response.ok) throw new Error(data.error ?? "Unable to process this resume.");
+
+      const contentType = response.headers.get("content-type") ?? "";
+      let data: (AnalysisResponse & { error?: string }) | null = null;
+      let rawText = "";
+
+      if (contentType.includes("application/json")) {
+        try {
+          data = (await response.json()) as AnalysisResponse & { error?: string };
+        } catch {
+          // Fall through if json parsing fails
+        }
+      } else {
+        try {
+          rawText = await response.text();
+        } catch {
+          // ignore
+        }
+      }
+
+      if (!response.ok) {
+        if (data?.error) {
+          throw new Error(data.error);
+        }
+        if (rawText && rawText.trim().length > 0 && rawText.length < 200 && !rawText.includes("<!DOCTYPE")) {
+          throw new Error(rawText.trim());
+        }
+        if (!rawText || rawText.trim().length === 0) {
+          throw new Error("Resume analysis service returned an empty response. Please try again.");
+        }
+        throw new Error("Resume analysis service returned an unexpected response. Please try again.");
+      }
+
+      if (!data) {
+        throw new Error("Resume analysis service returned an invalid response format. Please try again.");
+      }
+
       setState("EXTRACTING");
       setResult(data);
       setClaims(data.skills);
