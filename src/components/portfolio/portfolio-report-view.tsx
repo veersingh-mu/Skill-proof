@@ -162,8 +162,8 @@ export function PortfolioReportView() {
           <h2 className="text-sm font-bold uppercase tracking-wider text-foreground print:text-zinc-900">
             Skill Verification Matrix
           </h2>
-          <div className="border border-border/60 rounded-lg overflow-hidden print:border-zinc-300">
-            <table className="w-full text-left text-xs">
+          <div className="border border-border/60 rounded-lg overflow-x-auto print:border-zinc-300 print:overflow-visible">
+            <table className="w-full text-left text-xs min-w-[580px] sm:min-w-0">
               <thead className="bg-muted/40 border-b border-border/60 print:bg-zinc-100 print:border-zinc-300 font-semibold text-muted-foreground print:text-zinc-700">
                 <tr>
                   <th className="py-2.5 px-3">Skill</th>
@@ -228,7 +228,7 @@ export function PortfolioReportView() {
                           • {ev.extractedFact}
                         </span>
                         {ev.filePath && (
-                          <span className="text-[11px] text-muted-foreground print:text-zinc-500 font-mono block pl-3">
+                          <span className="text-[11px] text-muted-foreground print:text-zinc-500 font-mono block pl-3 break-all">
                             Path: {ev.filePath} ({ev.repositoryName})
                           </span>
                         )}

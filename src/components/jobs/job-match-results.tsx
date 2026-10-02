@@ -289,14 +289,14 @@ export function JobMatchResults({ matches }: JobMatchResultsProps) {
 
                 {/* Bottom Row Actions */}
                 <div className="flex flex-wrap items-center justify-between gap-2 pt-1 border-t border-border/40">
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
                     {hasEvidence ? (
                       <Button
                         type="button"
                         variant="outline"
                         size="sm"
                         onClick={() => toggleExpand(m.skill)}
-                        className="text-xs h-7 border-border hover:bg-muted text-foreground"
+                        className="text-xs h-8 min-h-[36px] border-border hover:bg-muted text-foreground"
                       >
                         {isExpanded ? (
                           <>
@@ -311,14 +311,14 @@ export function JobMatchResults({ matches }: JobMatchResultsProps) {
                         )}
                       </Button>
                     ) : (
-                      <div className="flex items-center gap-2">
+                      <div className="flex flex-wrap items-center gap-2">
                         <span className="text-[11px] text-zinc-400 italic">
                           No qualifying evidence
                         </span>
                         <Button
                           asChild
                           size="sm"
-                          className="h-7 text-xs bg-indigo-600 hover:bg-indigo-500 text-white font-medium"
+                          className="h-8 min-h-[36px] text-xs bg-indigo-600 hover:bg-indigo-500 text-white font-medium"
                         >
                           <Link href={`/tasks?skill=${encodeURIComponent(m.skill)}`}>
                             Generate Task →
@@ -332,7 +332,7 @@ export function JobMatchResults({ matches }: JobMatchResultsProps) {
                       asChild
                       variant="ghost"
                       size="sm"
-                      className="text-xs h-7 text-muted-foreground hover:text-indigo-300 hover:bg-indigo-500/10"
+                      className="text-xs h-8 min-h-[36px] text-muted-foreground hover:text-indigo-300 hover:bg-indigo-500/10"
                     >
                       <Link href={`/evidence?skill=${encodeURIComponent(m.skill)}`}>
                         <Network className="size-3 mr-1 text-indigo-400" />

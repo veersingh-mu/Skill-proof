@@ -93,12 +93,12 @@ export function PortfolioView() {
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2 shrink-0 print:hidden">
+          <div className="flex flex-wrap items-center gap-2 shrink-0 print:hidden w-full sm:w-auto">
             <Button
               asChild
               size="sm"
               variant="outline"
-              className="text-xs h-9 border-border hover:bg-muted"
+              className="text-xs h-9 min-h-[38px] border-border hover:bg-muted flex-1 sm:flex-none"
             >
               <Link href="/portfolio/report">
                 <Share2 className="size-3.5 mr-1.5" />
@@ -111,7 +111,7 @@ export function PortfolioView() {
               size="sm"
               variant="outline"
               onClick={() => window.print()}
-              className="text-xs h-9 border-border hover:bg-muted"
+              className="text-xs h-9 min-h-[38px] border-border hover:bg-muted flex-1 sm:flex-none"
             >
               <Printer className="size-3.5 mr-1.5" />
               Print / Save PDF
@@ -120,7 +120,7 @@ export function PortfolioView() {
             <Button
               asChild
               size="sm"
-              className="bg-emerald-500 text-zinc-950 hover:bg-emerald-400 font-semibold text-xs h-9"
+              className="w-full sm:w-auto bg-emerald-500 text-zinc-950 hover:bg-emerald-400 font-semibold text-xs h-9 min-h-[38px]"
             >
               <Link href="/evidence">
                 <Network className="size-3.5 mr-1.5" />

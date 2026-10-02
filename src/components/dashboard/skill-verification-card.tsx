@@ -161,23 +161,23 @@ export function SkillVerificationCard({
           </span>
         </div>
 
-        <div className="flex items-center justify-between md:justify-end gap-5">
-          <div className="flex items-center gap-4 text-xs font-mono text-muted-foreground">
+        <div className="flex flex-wrap items-center justify-between md:justify-end gap-3 sm:gap-5">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs font-mono text-muted-foreground">
             <span className="flex items-center gap-1.5">
               <FolderGit2 className="size-3.5 text-muted-foreground" />
-              {repositoryCount} {repositoryCount === 1 ? "repository" : "repositories"}
+              {repositoryCount} {repositoryCount === 1 ? "repo" : "repos"}
             </span>
-            <span>•</span>
+            <span className="hidden sm:inline">•</span>
             <span className="flex items-center gap-1.5">
               <Box className="size-3.5 text-muted-foreground" />
-              {evidenceItems.length} {evidenceItems.length === 1 ? "evidence item" : "evidence items"}
+              {evidenceItems.length} {evidenceItems.length === 1 ? "evidence" : "evidence items"}
             </span>
           </div>
 
           <Button
             variant="ghost"
             size="sm"
-            className="size-8 p-0 text-muted-foreground hover:text-foreground shrink-0"
+            className="size-9 min-h-[40px] min-w-[40px] p-0 text-muted-foreground hover:text-foreground shrink-0 flex items-center justify-center"
             aria-label={isExpanded ? `Collapse ${skill} evidence details` : `Expand ${skill} evidence details`}
             onClick={(e) => {
               e.stopPropagation();
@@ -247,7 +247,7 @@ export function SkillVerificationCard({
                           {item.repositoryName}
                         </span>
                         {item.filePath && (
-                          <span className="text-muted-foreground font-mono text-[11px]">
+                          <span className="text-muted-foreground font-mono text-[11px] break-all">
                             • {item.filePath}
                           </span>
                         )}

@@ -213,11 +213,11 @@ export function JobMatchingView() {
               {/* View Switcher: Skill Gap Analysis vs Requirement Match Matrix */}
               {gapAnalysis && (
                 <div className="space-y-6">
-                  <div className="flex border-b border-border/60 gap-5 pt-2">
+                  <div className="flex flex-wrap sm:flex-nowrap border-b border-border/60 gap-2 sm:gap-5 pt-2">
                     <button
                       type="button"
                       onClick={() => setActiveView("gaps")}
-                      className={`pb-2.5 text-xs font-semibold uppercase tracking-wider transition-colors border-b-2 flex items-center gap-1.5 ${
+                      className={`pb-2.5 px-2 text-xs font-semibold uppercase tracking-wider transition-colors border-b-2 flex items-center gap-1.5 min-h-[44px] ${
                         activeView === "gaps"
                           ? "border-emerald-400 text-emerald-300"
                           : "border-transparent text-muted-foreground hover:text-foreground"
@@ -230,7 +230,7 @@ export function JobMatchingView() {
                     <button
                       type="button"
                       onClick={() => setActiveView("matches")}
-                      className={`pb-2.5 text-xs font-semibold uppercase tracking-wider transition-colors border-b-2 flex items-center gap-1.5 ${
+                      className={`pb-2.5 px-2 text-xs font-semibold uppercase tracking-wider transition-colors border-b-2 flex items-center gap-1.5 min-h-[44px] ${
                         activeView === "matches"
                           ? "border-emerald-400 text-emerald-300"
                           : "border-transparent text-muted-foreground hover:text-foreground"

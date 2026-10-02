@@ -21,7 +21,7 @@ export function NodeDetailPanel({ data, onClose }: NodeDetailPanelProps) {
   if (!data) return null;
 
   return (
-    <div className="rounded-xl border border-border bg-card/95 p-4 shadow-xl backdrop-blur-md text-xs space-y-3 max-w-sm w-full animate-in fade-in-50 zoom-in-95">
+    <div className="rounded-xl border border-border bg-card/95 p-4 shadow-xl backdrop-blur-md text-xs space-y-3 max-w-sm w-full max-h-[75vh] overflow-y-auto animate-in fade-in-50 zoom-in-95">
       <div className="flex items-center justify-between border-b border-border/60 pb-2">
         <div className="flex items-center gap-1.5 font-bold uppercase tracking-wider text-muted-foreground text-[10px]">
           <Info className="size-3.5 text-emerald-400" />
@@ -31,10 +31,10 @@ export function NodeDetailPanel({ data, onClose }: NodeDetailPanelProps) {
           variant="ghost"
           size="sm"
           onClick={onClose}
-          className="size-6 p-0 text-muted-foreground hover:text-foreground rounded-full"
+          className="size-8 p-1 text-muted-foreground hover:text-foreground rounded-full min-h-[36px] min-w-[36px] flex items-center justify-center"
           aria-label="Close detail panel"
         >
-          <X className="size-3.5" />
+          <X className="size-4" />
         </Button>
       </div>
 

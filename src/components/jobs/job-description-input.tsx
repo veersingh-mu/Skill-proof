@@ -147,12 +147,12 @@ export function JobDescriptionInput({ onAnalyze, isLoading }: JobDescriptionInpu
         </div>
       )}
 
-      <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
-        <div className="flex items-center gap-2">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
           <Button
             type="submit"
             disabled={isLoading || !description.trim()}
-            className="bg-emerald-500 hover:bg-emerald-600 text-black font-semibold text-xs px-5 shadow-sm"
+            className="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-600 text-black font-semibold text-xs px-5 shadow-sm min-h-[44px]"
           >
             {isLoading ? (
               <>
@@ -174,7 +174,7 @@ export function JobDescriptionInput({ onAnalyze, isLoading }: JobDescriptionInpu
               size="sm"
               onClick={handleClear}
               disabled={isLoading}
-              className="text-xs text-muted-foreground hover:text-foreground"
+              className="text-xs text-muted-foreground hover:text-foreground min-h-[40px]"
             >
               <Trash2 className="size-3 mr-1" />
               Clear
@@ -182,7 +182,7 @@ export function JobDescriptionInput({ onAnalyze, isLoading }: JobDescriptionInpu
           )}
         </div>
 
-        <p className="text-[11px] text-muted-foreground">
+        <p className="text-[11px] text-muted-foreground text-center sm:text-left">
           Deterministic extraction based on SkillProof taxonomy. No AI scoring or hiring prediction.
         </p>
       </div>

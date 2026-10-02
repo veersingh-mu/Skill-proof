@@ -38,54 +38,54 @@ export function EvidencePreview({ compact = false }: { compact?: boolean }) {
           Observed Initial Evidence
         </p>
         <div className="mt-2 space-y-1.5">
-          <div className="flex items-center justify-between text-xs rounded-lg border border-border/50 bg-secondary/30 px-3 py-1.5 font-mono text-zinc-300">
-            <span className="flex items-center gap-2">
-              <FileCode2 className="size-3.5 text-indigo-400" /> Dockerfile
+          <div className="flex items-center justify-between gap-2 text-xs rounded-lg border border-border/50 bg-secondary/30 px-3 py-1.5 font-mono text-zinc-300">
+            <span className="flex items-center gap-2 min-w-0 truncate">
+              <FileCode2 className="size-3.5 text-indigo-400 shrink-0" /> <span className="truncate">Dockerfile</span>
             </span>
-            <span className="text-[11px] text-muted-foreground">user/cloud-api</span>
+            <span className="text-[11px] text-muted-foreground shrink-0">user/cloud-api</span>
           </div>
-          <div className="flex items-center justify-between text-xs rounded-lg border border-border/50 bg-secondary/30 px-3 py-1.5 font-mono text-zinc-300">
-            <span className="flex items-center gap-2">
-              <Terminal className="size-3.5 text-indigo-400" /> Container configuration
+          <div className="flex items-center justify-between gap-2 text-xs rounded-lg border border-border/50 bg-secondary/30 px-3 py-1.5 font-mono text-zinc-300">
+            <span className="flex items-center gap-2 min-w-0 truncate">
+              <Terminal className="size-3.5 text-indigo-400 shrink-0" /> <span className="truncate">Container configuration</span>
             </span>
-            <span className="text-[11px] text-muted-foreground">.dockerignore</span>
+            <span className="text-[11px] text-muted-foreground shrink-0">.dockerignore</span>
           </div>
         </div>
       </div>
 
       {/* Transition Divider: Micro-Task Completed & Pushed */}
-      <div className="my-3 flex items-center justify-center gap-3 text-xs text-muted-foreground">
+      <div className="my-3 flex items-center justify-center gap-2 sm:gap-3 text-xs text-muted-foreground">
         <div className="h-px flex-1 bg-border/80" />
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-3 py-1 text-[11px] font-medium text-indigo-300">
-          <Sparkles className="size-3 text-indigo-400" />
-          Practical Micro-Task Completed
-          <ArrowDown className="size-3" />
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-2.5 sm:px-3 py-1 text-[10px] sm:text-[11px] font-medium text-indigo-300 text-center">
+          <Sparkles className="size-3 text-indigo-400 shrink-0" />
+          <span>Practical Task Completed</span>
+          <ArrowDown className="size-3 shrink-0" />
         </span>
         <div className="h-px flex-1 bg-border/80" />
       </div>
 
       {/* New GitHub Evidence Added */}
       <div className="rounded-xl border border-indigo-500/25 bg-indigo-950/20 p-4">
-        <div className="flex items-center justify-between text-xs">
+        <div className="flex items-center justify-between gap-2 text-xs">
           <span className="font-semibold text-indigo-300 uppercase tracking-wider text-[11px]">
             New GitHub Evidence Detected
           </span>
-          <span className="inline-flex items-center gap-1 font-mono text-[11px] text-emerald-400 font-semibold">
+          <span className="inline-flex items-center gap-1 font-mono text-[11px] text-emerald-400 font-semibold shrink-0">
             <GitBranch className="size-3" /> +2 new signals
           </span>
         </div>
         <div className="mt-2.5 space-y-1.5">
-          <div className="flex items-center justify-between text-xs rounded-lg border border-emerald-500/25 bg-emerald-500/[0.05] px-3 py-1.5 font-mono text-emerald-200">
-            <span className="flex items-center gap-2">
-              <CheckCircle2 className="size-3.5 text-emerald-400" /> + Docker Compose
+          <div className="flex items-center justify-between gap-2 text-xs rounded-lg border border-emerald-500/25 bg-emerald-500/[0.05] px-3 py-1.5 font-mono text-emerald-200">
+            <span className="flex items-center gap-2 min-w-0 truncate">
+              <CheckCircle2 className="size-3.5 text-emerald-400 shrink-0" /> <span className="truncate">+ Docker Compose</span>
             </span>
-            <span className="text-[11px] text-muted-foreground">docker-compose.prod.yml</span>
+            <span className="text-[11px] text-muted-foreground shrink-0 truncate max-w-[120px] sm:max-w-none">docker-compose.prod.yml</span>
           </div>
-          <div className="flex items-center justify-between text-xs rounded-lg border border-emerald-500/25 bg-emerald-500/[0.05] px-3 py-1.5 font-mono text-emerald-200">
-            <span className="flex items-center gap-2">
-              <CheckCircle2 className="size-3.5 text-emerald-400" /> + CI/CD Workflow
+          <div className="flex items-center justify-between gap-2 text-xs rounded-lg border border-emerald-500/25 bg-emerald-500/[0.05] px-3 py-1.5 font-mono text-emerald-200">
+            <span className="flex items-center gap-2 min-w-0 truncate">
+              <CheckCircle2 className="size-3.5 text-emerald-400 shrink-0" /> <span className="truncate">+ CI/CD Workflow</span>
             </span>
-            <span className="text-[11px] text-muted-foreground">.github/workflows/docker.yml</span>
+            <span className="text-[11px] text-muted-foreground shrink-0 truncate max-w-[120px] sm:max-w-none">workflows/docker.yml</span>
           </div>
         </div>
       </div>

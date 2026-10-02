@@ -48,9 +48,9 @@ export function GapSelector({ gaps, selectedGap, generatingSkill, onSelect }: Ga
                 : "border-border/60 bg-card/40 hover:border-border hover:bg-card/70"
             }`}
           >
-            <div className="flex items-center gap-3">
+            <div className="flex items-start gap-3 min-w-0 flex-1">
               <GapStatusIcon gapType={gap.gapType} />
-              <div>
+              <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="text-sm font-bold text-foreground">{gap.skill}</span>
                   <span
@@ -74,7 +74,7 @@ export function GapSelector({ gaps, selectedGap, generatingSkill, onSelect }: Ga
                     {gap.priority} PRIORITY
                   </span>
                 </div>
-                <p className="text-xs text-muted-foreground mt-0.5">{gap.explanation}</p>
+                <p className="text-xs text-muted-foreground mt-0.5 leading-relaxed">{gap.explanation}</p>
               </div>
             </div>
 
@@ -82,7 +82,7 @@ export function GapSelector({ gaps, selectedGap, generatingSkill, onSelect }: Ga
               type="button"
               size="sm"
               variant={isSelected ? "default" : "outline"}
-              className={`shrink-0 text-xs h-8 ${
+              className={`w-full sm:w-auto shrink-0 text-xs h-9 min-h-[38px] ${
                 isSelected
                   ? "bg-emerald-500 text-zinc-950 hover:bg-emerald-400"
                   : "border-border text-foreground hover:bg-muted"

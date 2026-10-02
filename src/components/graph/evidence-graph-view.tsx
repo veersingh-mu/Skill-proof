@@ -170,7 +170,7 @@ export function EvidenceGraphView({ session }: EvidenceGraphViewProps) {
       </div>
 
       {/* Main Canvas Area */}
-      <div className="relative w-full h-[580px] rounded-xl border border-border/80 bg-zinc-950/80 overflow-hidden shadow-inner">
+      <div className="relative w-full h-[440px] sm:h-[520px] md:h-[580px] rounded-xl border border-border/80 bg-zinc-950/80 overflow-hidden shadow-inner">
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -199,7 +199,7 @@ export function EvidenceGraphView({ session }: EvidenceGraphViewProps) {
               if (n.type === "artifact") return "#a855f7";
               return "#ef4444";
             }}
-            className="!bg-zinc-900/90 !border-border !rounded-lg"
+            className="!bg-zinc-900/90 !border-border !rounded-lg hidden sm:block"
           />
         </ReactFlow>
 
@@ -208,9 +208,9 @@ export function EvidenceGraphView({ session }: EvidenceGraphViewProps) {
           <GraphLegend />
         </div>
 
-        {/* Floating Node Detail Inspector in Top-Right */}
+        {/* Floating Node Detail Inspector in Top-Right on desktop, bounded overlay on mobile */}
         {selectedNodeData && (
-          <div className="absolute top-4 right-4 z-20">
+          <div className="absolute top-3 left-3 right-3 sm:left-auto sm:right-4 sm:top-4 sm:max-w-sm z-20">
             <NodeDetailPanel
               data={selectedNodeData}
               onClose={() => setSelectedNodeData(null)}

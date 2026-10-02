@@ -160,11 +160,11 @@ export function MicroTaskCard({ task, gapContext, onRegenerate, isRegenerating }
           <SectionHeader icon={ListChecks} label="Requirements" />
           <ul className="space-y-1.5">
             {task.requirements.map((req, i) => (
-              <li key={i} className="flex items-start gap-2 text-sm text-foreground/90">
+              <li key={i} className="flex items-start gap-2 text-sm text-foreground/90 min-w-0 break-words">
                 <span className="mt-0.5 size-4 shrink-0 rounded bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center text-[10px] font-bold text-indigo-300">
                   {i + 1}
                 </span>
-                {req}
+                <span className="min-w-0 flex-1">{req}</span>
               </li>
             ))}
           </ul>
@@ -174,11 +174,11 @@ export function MicroTaskCard({ task, gapContext, onRegenerate, isRegenerating }
           <SectionHeader icon={Zap} label="Implementation Steps" />
           <ol className="space-y-1.5">
             {task.steps.map((step, i) => (
-              <li key={i} className="flex items-start gap-2 text-sm text-foreground/90">
+              <li key={i} className="flex items-start gap-2 text-sm text-foreground/90 min-w-0 break-words">
                 <span className="mt-0.5 size-4 shrink-0 rounded-full bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-[10px] font-bold text-emerald-300">
                   {i + 1}
                 </span>
-                {step}
+                <span className="min-w-0 flex-1">{step}</span>
               </li>
             ))}
           </ol>
@@ -189,9 +189,9 @@ export function MicroTaskCard({ task, gapContext, onRegenerate, isRegenerating }
         <SectionHeader icon={Code2} label="Deliverables" />
         <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
           {task.deliverables.map((d, i) => (
-            <li key={i} className="flex items-center gap-2 text-sm text-foreground/90">
+            <li key={i} className="flex items-center gap-2 text-sm text-foreground/90 min-w-0 break-words">
               <span className="size-1.5 rounded-full bg-emerald-400 shrink-0" />
-              {d}
+              <span className="min-w-0 flex-1">{d}</span>
             </li>
           ))}
         </ul>
@@ -201,11 +201,11 @@ export function MicroTaskCard({ task, gapContext, onRegenerate, isRegenerating }
         <SectionHeader icon={CheckSquare} label="Acceptance Criteria" />
         <ul className="space-y-1.5">
           {task.acceptanceCriteria.map((c, i) => (
-            <li key={i} className="flex items-start gap-2 text-sm text-foreground/90">
+            <li key={i} className="flex items-start gap-2 text-sm text-foreground/90 min-w-0 break-words">
               <span className="mt-0.5 size-4 shrink-0 rounded border border-border/60 bg-background/50 flex items-center justify-center text-[10px] text-muted-foreground">
                 □
               </span>
-              {c}
+              <span className="min-w-0 flex-1">{c}</span>
             </li>
           ))}
         </ul>

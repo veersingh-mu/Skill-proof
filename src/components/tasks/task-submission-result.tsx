@@ -80,21 +80,21 @@ export function TaskSubmissionResult({ submission, onReset }: TaskSubmissionResu
               <CheckCircle2 className="size-4" />
               Task Submission Analyzed
             </div>
-            <div className="flex items-center gap-2">
-              <GitHubIcon className="size-4 text-muted-foreground" />
+            <div className="flex items-center gap-2 min-w-0 max-w-full">
+              <GitHubIcon className="size-4 text-muted-foreground shrink-0" />
               <a
                 href={repositoryUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="text-base font-bold text-foreground hover:underline inline-flex items-center gap-1.5"
+                className="text-base font-bold text-foreground hover:underline inline-flex items-center gap-1.5 min-w-0 max-w-full truncate"
               >
-                {githubOwner}/{githubRepo}
-                <ExternalLink className="size-3 text-muted-foreground" />
+                <span className="truncate">{githubOwner}/{githubRepo}</span>
+                <ExternalLink className="size-3 text-muted-foreground shrink-0" />
               </a>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <span className="px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 flex items-center gap-1.5">
               <span className="size-2 rounded-full bg-emerald-400 animate-pulse" />
               Real Evidence Analyzed
@@ -104,7 +104,7 @@ export function TaskSubmissionResult({ submission, onReset }: TaskSubmissionResu
               variant="outline"
               size="sm"
               onClick={onReset}
-              className="text-xs h-8 border-border hover:bg-muted"
+              className="text-xs h-9 min-h-[38px] border-border hover:bg-muted"
             >
               <RotateCcw className="size-3 mr-1.5" />
               Analyze Another Repo
@@ -228,7 +228,7 @@ export function TaskSubmissionResult({ submission, onReset }: TaskSubmissionResu
                       {ev.type.replace(/_/g, " ")}
                     </span>
                     {ev.filePath && (
-                      <span className="font-mono text-muted-foreground text-[11px]">
+                      <span className="font-mono text-muted-foreground text-[11px] break-all">
                         {ev.filePath}
                       </span>
                     )}
@@ -300,11 +300,11 @@ export function TaskSubmissionResult({ submission, onReset }: TaskSubmissionResu
       )}
 
       {/* 5. Navigation Actions */}
-      <div className="flex flex-wrap items-center gap-3 pt-2">
+      <div className="flex flex-wrap items-center gap-2.5 pt-2">
         <Button
           asChild
           size="sm"
-          className="bg-emerald-500 text-zinc-950 hover:bg-emerald-400 font-semibold text-xs h-9"
+          className="w-full sm:w-auto bg-emerald-500 text-zinc-950 hover:bg-emerald-400 font-semibold text-xs h-10 sm:h-9 min-h-[44px] sm:min-h-0"
         >
           <Link href={`/evidence?skill=${encodeURIComponent(skill)}`}>
             <Network className="size-3.5 mr-1.5" />
@@ -316,7 +316,7 @@ export function TaskSubmissionResult({ submission, onReset }: TaskSubmissionResu
           asChild
           variant="outline"
           size="sm"
-          className="text-xs h-9 border-border hover:bg-muted"
+          className="w-full sm:w-auto text-xs h-10 sm:h-9 min-h-[44px] sm:min-h-0 border-border hover:bg-muted"
         >
           <Link href="/dashboard">
             View Updated Dashboard
@@ -328,7 +328,7 @@ export function TaskSubmissionResult({ submission, onReset }: TaskSubmissionResu
           variant="ghost"
           size="sm"
           onClick={onReset}
-          className="text-xs h-9 text-muted-foreground hover:text-foreground"
+          className="w-full sm:w-auto text-xs h-10 sm:h-9 min-h-[44px] sm:min-h-0 text-muted-foreground hover:text-foreground"
         >
           Submit Another Repository
         </Button>

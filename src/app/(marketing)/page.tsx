@@ -356,13 +356,13 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer className="border-t border-border/70 bg-card/30">
-        <div className="mx-auto flex max-w-[1400px] flex-col sm:flex-row items-center justify-between gap-4 px-4 py-8 sm:px-6 lg:px-8 text-xs text-muted-foreground">
-          <div className="flex items-center gap-2">
+        <div className="mx-auto flex max-w-[1400px] flex-col sm:flex-row items-center justify-between gap-4 px-4 py-8 sm:px-6 lg:px-8 text-xs text-muted-foreground text-center sm:text-left">
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
             <span className="font-bold tracking-wider text-foreground">SKILLPROOF</span>
-            <span>—</span>
+            <span className="hidden sm:inline">—</span>
             <span>Don&apos;t just claim skills. Prove them.</span>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-4">
             <Link href="/analyze" className="hover:text-foreground">Analyze</Link>
             <Link href="/dashboard" className="hover:text-foreground">Dashboard</Link>
             <Link href="/portfolio" className="hover:text-foreground">Portfolio</Link>

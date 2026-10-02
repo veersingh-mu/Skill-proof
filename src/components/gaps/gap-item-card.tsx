@@ -134,14 +134,14 @@ export function GapItemCard({ gap }: GapItemCardProps) {
 
       {/* Bottom Actions */}
       <div className="flex flex-wrap items-center justify-between gap-2 pt-1 border-t border-border/40">
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           {hasEvidence ? (
             <Button
               type="button"
               variant="outline"
               size="sm"
               onClick={() => setIsExpanded(!isExpanded)}
-              className="text-xs h-7 border-border hover:bg-muted text-foreground"
+              className="text-xs h-8 min-h-[36px] border-border hover:bg-muted text-foreground"
             >
               {isExpanded ? (
                 <>
@@ -166,7 +166,7 @@ export function GapItemCard({ gap }: GapItemCardProps) {
             asChild
             variant="ghost"
             size="sm"
-            className="text-xs h-7 text-muted-foreground hover:text-emerald-300 hover:bg-emerald-500/10"
+            className="text-xs h-8 min-h-[36px] text-muted-foreground hover:text-emerald-300 hover:bg-emerald-500/10"
           >
             <Link href={`/evidence?skill=${encodeURIComponent(gap.skill)}`}>
               <Network className="size-3 mr-1 text-emerald-400" />
@@ -179,7 +179,7 @@ export function GapItemCard({ gap }: GapItemCardProps) {
             <Button
               asChild
               size="sm"
-              className="text-xs h-7.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold shadow-xs"
+              className="text-xs h-8 min-h-[36px] bg-indigo-600 hover:bg-indigo-500 text-white font-semibold shadow-xs"
             >
               <Link href={`/tasks?skill=${encodeURIComponent(gap.skill)}`}>
                 <Sparkles className="size-3 mr-1 text-indigo-200" />

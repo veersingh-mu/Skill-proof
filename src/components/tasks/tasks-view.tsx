@@ -143,7 +143,7 @@ export function TasksView() {
             </p>
           </div>
           {!hasJobAnalysis ? (
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <Button
                 type="button"
                 variant="outline"
@@ -172,7 +172,7 @@ export function TasksView() {
         </div>
 
         {!hasJobAnalysis ? (
-          <div className="rounded-xl border border-dashed border-border/80 bg-card/40 p-10 text-center space-y-4">
+          <div className="rounded-xl border border-dashed border-border/80 bg-card/40 p-8 sm:p-10 text-center space-y-4">
             <Bot className="size-9 text-muted-foreground mx-auto" />
             <div className="space-y-1">
               <p className="text-sm font-semibold text-foreground">No skill gap analysis found</p>
@@ -184,13 +184,13 @@ export function TasksView() {
               <Button
                 type="button"
                 size="sm"
-                className="bg-emerald-500 text-zinc-950 hover:bg-emerald-400 font-semibold text-xs"
+                className="bg-emerald-500 text-zinc-950 hover:bg-emerald-400 font-semibold text-xs h-10 sm:h-9 min-h-[44px] sm:min-h-0"
                 onClick={handleLoadSampleGaps}
               >
                 <Sparkles className="size-3.5 mr-1.5" />
                 Load Sample Gaps (Demo)
               </Button>
-              <Button asChild size="sm" variant="outline" className="text-xs">
+              <Button asChild size="sm" variant="outline" className="text-xs h-10 sm:h-9 min-h-[44px] sm:min-h-0">
                 <Link href="/jobs">Go to Job Matching</Link>
               </Button>
             </div>
@@ -230,7 +230,7 @@ export function TasksView() {
                   <Button
                     type="button"
                     size="sm"
-                    className="bg-emerald-500 text-zinc-950 hover:bg-emerald-400 font-semibold text-xs h-9 shrink-0 shadow-sm"
+                    className="w-full sm:w-auto bg-emerald-500 text-zinc-950 hover:bg-emerald-400 font-semibold text-xs h-10 sm:h-9 min-h-[44px] sm:min-h-0 shrink-0 shadow-sm"
                     onClick={() => void generateTask(selectedGap)}
                   >
                     <Sparkles className="size-3.5 mr-1.5" />

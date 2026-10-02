@@ -102,7 +102,11 @@ export function TaskSubmissionForm({
               </span>
               <input
                 id="repo-url-input"
-                type="text"
+                type="url"
+                inputMode="url"
+                autoCapitalize="none"
+                autoCorrect="off"
+                spellCheck={false}
                 value={url}
                 onChange={(e) => {
                   setUrl(e.target.value);
@@ -110,13 +114,13 @@ export function TaskSubmissionForm({
                 }}
                 disabled={isAnalyzing}
                 placeholder="https://github.com/username/repository"
-                className="w-full pl-10 pr-3.5 py-2.5 text-xs sm:text-sm rounded-xl border border-border bg-secondary/40 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-indigo-400 focus:border-indigo-400 transition-colors disabled:opacity-50"
+                className="w-full pl-10 pr-3.5 py-2.5 text-xs sm:text-sm rounded-xl border border-border bg-secondary/40 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-indigo-400 focus:border-indigo-400 transition-colors disabled:opacity-50 min-h-[44px]"
               />
             </div>
             <Button
               type="submit"
               disabled={isAnalyzing || !url.trim()}
-              className="bg-indigo-600 text-white hover:bg-indigo-500 font-semibold text-xs h-11 px-6 shrink-0 shadow-sm shadow-indigo-600/30 transition-all"
+              className="w-full sm:w-auto bg-indigo-600 text-white hover:bg-indigo-500 font-semibold text-xs h-11 min-h-[44px] px-6 shrink-0 shadow-sm shadow-indigo-600/30 transition-all"
             >
               {isAnalyzing ? (
                 <>

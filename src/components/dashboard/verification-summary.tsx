@@ -148,8 +148,8 @@ export function VerificationSummary({ summary, repositoryCount = 0 }: Verificati
             />
           </div>
 
-          <div className="flex items-center justify-between text-[11px] text-muted-foreground font-mono pt-1">
-            <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] text-muted-foreground font-mono pt-1">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
               <span className="flex items-center gap-1.5">
                 <span className="size-2 rounded-full bg-emerald-500" /> Proven ({provenCount})
               </span>
@@ -160,7 +160,7 @@ export function VerificationSummary({ summary, repositoryCount = 0 }: Verificati
                 <span className="size-2 rounded-full bg-zinc-600" /> Claimed-Only ({claimedOnlyCount})
               </span>
             </div>
-            <span>{coveragePercentage}% evidence backed</span>
+            <span className="shrink-0">{coveragePercentage}% evidence backed</span>
           </div>
         </div>
 

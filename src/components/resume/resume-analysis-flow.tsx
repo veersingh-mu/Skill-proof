@@ -422,21 +422,21 @@ export function ResumeAnalysisFlow() {
                     Remove incorrect skills or add a missing item before confirming.
                   </p>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
                   <Input
                     list="taxonomy-skills"
                     value={skillInput}
                     onChange={(event) => setSkillInput(event.target.value)}
                     placeholder="Add a skill"
-                    className="w-44"
+                    className="w-full sm:w-44 h-10 sm:h-9"
                   />
                   <datalist id="taxonomy-skills">
                     {SKILL_NAMES.map((name) => (
                       <option key={name} value={name} />
                     ))}
                   </datalist>
-                  <Button type="button" variant="outline" onClick={addSkill}>
-                    <Plus className="size-4" /> Add Skill
+                  <Button type="button" variant="outline" onClick={addSkill} className="h-10 sm:h-9 min-h-[40px] w-full sm:w-auto">
+                    <Plus className="size-4 mr-1" /> Add Skill
                   </Button>
                 </div>
               </div>
@@ -597,7 +597,7 @@ export function ResumeAnalysisFlow() {
                 size="lg"
                 disabled={state !== "READY" || !isUsernameValid || githubStatus === "ANALYZING"}
                 onClick={verifyWithGithub}
-                className="bg-emerald-600 hover:bg-emerald-500 text-white font-medium shadow-sm transition-all"
+                className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white font-medium shadow-sm transition-all min-h-[44px]"
               >
                 {githubStatus === "ANALYZING" ? (
                   <>
