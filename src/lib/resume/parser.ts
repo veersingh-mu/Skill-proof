@@ -17,10 +17,25 @@ export function validateResumeFile({ filename, mimeType, size, signature }: { fi
   if (new TextDecoder().decode(signature.slice(0, 5)) !== "%PDF-") throw new ResumeParseError("INVALID_FILE", "This file does not appear to be a valid PDF.");
 }
 
+async function initPdfWorker() {
+  const g = globalThis as unknown as Record<string, unknown>;
+  if (!g.pdfjsWorker) {
+    try {
+      // Direct import ensures Next.js/Turbopack bundles the worker code into the deployment
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const worker = await import("pdfjs-dist/legacy/build/pdf.worker.mjs" as any);
+      g.pdfjsWorker = { WorkerMessageHandler: worker.WorkerMessageHandler };
+    } catch (e) {
+      console.warn("[initPdfWorker] Could not pre-bundle workerMessageHandler:", e);
+    }
+  }
+}
+
 export async function parseResumePdf(data: Uint8Array, filename: string): Promise<ParsedResume> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let parser: any;
   try {
+    await initPdfWorker();
     const { PDFParse } = await import("pdf-parse");
     parser = new PDFParse({ data });
     const result = await parser.getText();
