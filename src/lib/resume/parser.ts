@@ -28,6 +28,7 @@ export async function parseResumePdf(data: Uint8Array, filename: string): Promis
     if (text.length < MIN_EXTRACTED_CHARACTERS) throw new ResumeParseError("NO_EXTRACTABLE_TEXT", "Text could not be extracted from this PDF. Please upload a text-based resume.");
     return { text, metadata: { filename: filename.replace(/[\\/]/g, "_"), pageCount: result.total ?? 1 } };
   } catch (error) {
+    console.error("[parseResumePdf internal error]", error instanceof Error ? error.stack : error);
     if (error instanceof ResumeParseError) throw error;
     throw new ResumeParseError("CORRUPT_PDF", "Unable to process this resume. Please upload another text-based PDF.");
   } finally {
