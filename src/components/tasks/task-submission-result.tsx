@@ -115,20 +115,20 @@ export function TaskSubmissionResult({ submission, onReset }: TaskSubmissionResu
 
       {/* 2. Verification Change (BEFORE vs AFTER) */}
       <div className="rounded-xl border border-emerald-500/30 bg-gradient-to-b from-emerald-500/[0.04] to-card/60 p-5 space-y-4">
-        <div className="flex items-center justify-between border-b border-border/40 pb-3">
-          <div>
-            <div className="text-xs font-semibold text-emerald-400 uppercase tracking-wider">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border/40 pb-3 min-w-0">
+          <div className="min-w-0">
+            <div className="text-xs font-semibold text-emerald-400 uppercase tracking-wider truncate">
               Deterministic Verification Result
             </div>
-            <h3 className="text-lg font-bold text-foreground mt-0.5">Target Skill: {skill}</h3>
+            <h3 className="text-base sm:text-lg font-bold text-foreground mt-0.5 truncate">Target Skill: {skill}</h3>
           </div>
           {scoreDelta > 0 ? (
-            <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 rounded-full">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 rounded-full shrink-0">
               <TrendingUp className="size-3.5" />
               +{scoreDelta} points
             </div>
           ) : (
-            <div className="text-xs text-muted-foreground bg-muted/40 border border-border/40 px-3 py-1 rounded-full">
+            <div className="text-xs text-muted-foreground bg-muted/40 border border-border/40 px-3 py-1 rounded-full shrink-0">
               +0 points (No score change)
             </div>
           )}
@@ -201,10 +201,10 @@ export function TaskSubmissionResult({ submission, onReset }: TaskSubmissionResu
 
       {/* 3. NEW EVIDENCE DETECTED */}
       <div className="rounded-xl border border-border/80 bg-card/60 p-5 space-y-3">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-foreground">
-            <FileCode className="size-4 text-emerald-400" />
-            New Evidence Discovered ({evidenceDiff.added.length})
+            <FileCode className="size-4 text-emerald-400 shrink-0" />
+            <span>New Evidence Discovered ({evidenceDiff.added.length})</span>
           </div>
           <span className="text-xs text-muted-foreground">
             {evidenceDiff.unchanged.length} prior evidence items unchanged
@@ -220,11 +220,11 @@ export function TaskSubmissionResult({ submission, onReset }: TaskSubmissionResu
             {evidenceDiff.added.map((ev, i) => (
               <div
                 key={ev.id || i}
-                className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 rounded-lg bg-background/60 border border-border/40 text-xs"
+                className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 rounded-lg bg-background/60 border border-border/40 text-xs min-w-0"
               >
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
+                <div className="space-y-1 min-w-0">
+                  <div className="flex flex-wrap items-center gap-2 min-w-0">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 shrink-0">
                       {ev.type.replace(/_/g, " ")}
                     </span>
                     {ev.filePath && (

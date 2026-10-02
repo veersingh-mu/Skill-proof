@@ -78,8 +78,8 @@ export default function LandingPage() {
         {/* Hero Section */}
         <section className="relative overflow-hidden border-b border-border/60">
           <div className="absolute inset-x-0 top-0 -z-10 h-[38rem] bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.15),transparent_65%)]" />
-          <div className="mx-auto grid max-w-[1400px] gap-12 px-4 py-16 sm:px-6 md:py-24 lg:grid-cols-[1.1fr_.9fr] lg:items-center lg:px-8">
-            <div className="space-y-6">
+          <div className="mx-auto grid max-w-[1400px] gap-8 md:gap-12 px-3 sm:px-6 py-12 md:py-24 lg:grid-cols-[1.1fr_.9fr] lg:items-center lg:px-8 min-w-0">
+            <div className="space-y-6 min-w-0">
               <div className="inline-flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-3.5 py-1.5 text-xs font-semibold text-indigo-300">
                 <Sparkles className="size-3.5 text-indigo-400" />
                 AI-POWERED SKILL VERIFICATION
@@ -89,7 +89,7 @@ export default function LandingPage() {
                 <p className="text-xs font-bold tracking-[0.2em] text-muted-foreground uppercase">
                   SKILLPROOF
                 </p>
-                <h1 className="max-w-3xl text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl text-balance">
+                <h1 className="max-w-3xl text-3xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl text-balance">
                   Don&apos;t just claim skills.{" "}
                   <span className="bg-gradient-to-r from-indigo-400 via-violet-300 to-emerald-400 bg-clip-text text-transparent">
                     Prove them.
@@ -107,7 +107,7 @@ export default function LandingPage() {
                 <Button
                   asChild
                   size="lg"
-                  className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm h-11 px-6 shadow-sm shadow-indigo-600/30"
+                  className="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm h-11 min-h-[44px] px-6 shadow-sm shadow-indigo-600/30"
                 >
                   <Link href="/analyze">
                     Analyze My Skills
@@ -118,31 +118,31 @@ export default function LandingPage() {
                   asChild
                   size="lg"
                   variant="outline"
-                  className="border-border bg-card/60 hover:bg-secondary text-foreground text-sm h-11 px-6"
+                  className="w-full sm:w-auto border-border bg-card/60 hover:bg-secondary text-foreground text-sm h-11 min-h-[44px] px-6"
                 >
                   <Link href="/dashboard">Explore Demo</Link>
                 </Button>
               </div>
 
               {/* Connected Flow Pill Nodes */}
-              <div className="pt-6 border-t border-border/60">
+              <div className="pt-6 border-t border-border/60 min-w-0">
                 <p className="text-[11px] font-semibold tracking-wider text-muted-foreground uppercase mb-3">
                   Verification Lifecycle
                 </p>
-                <div className="flex flex-wrap items-center gap-2 text-xs">
-                  <span className="rounded-lg border border-border/80 bg-secondary/40 px-2.5 py-1 font-mono text-zinc-300">
+                <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs min-w-0">
+                  <span className="rounded-lg border border-border/80 bg-secondary/40 px-2 sm:px-2.5 py-1 font-mono text-zinc-300">
                     Resume Claim
                   </span>
                   <span className="text-muted-foreground">→</span>
-                  <span className="rounded-lg border border-border/80 bg-secondary/40 px-2.5 py-1 font-mono text-zinc-300">
+                  <span className="rounded-lg border border-border/80 bg-secondary/40 px-2 sm:px-2.5 py-1 font-mono text-zinc-300">
                     GitHub Evidence
                   </span>
                   <span className="text-muted-foreground">→</span>
-                  <span className="rounded-lg border border-indigo-500/30 bg-indigo-500/10 px-2.5 py-1 font-mono text-indigo-300 font-semibold">
+                  <span className="rounded-lg border border-indigo-500/30 bg-indigo-500/10 px-2 sm:px-2.5 py-1 font-mono text-indigo-300 font-semibold">
                     Verification
                   </span>
                   <span className="text-muted-foreground">→</span>
-                  <span className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1 font-mono text-emerald-300 font-semibold">
+                  <span className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-2 sm:px-2.5 py-1 font-mono text-emerald-300 font-semibold">
                     Skill Proof
                   </span>
                 </div>
@@ -150,7 +150,7 @@ export default function LandingPage() {
             </div>
 
             {/* Hero Visual Card */}
-            <div>
+            <div className="min-w-0 w-full flex justify-center">
               <EvidencePreview />
             </div>
           </div>
@@ -239,15 +239,15 @@ export default function LandingPage() {
                   </span>
                   <span className="text-[11px] font-mono text-emerald-400">Traceable Evidence</span>
                 </div>
-                <div className="rounded-lg border border-emerald-500/25 bg-emerald-500/[0.04] p-4 font-mono text-xs text-zinc-200 space-y-1">
+                <div className="rounded-lg border border-emerald-500/25 bg-emerald-500/[0.04] p-4 font-mono text-xs text-zinc-200 space-y-1 min-w-0">
                   <div className="flex items-center justify-between">
                     <span>Docker</span>
                     <span className="text-emerald-400 font-bold">PROVEN (78)</span>
                   </div>
-                  <div className="text-[11px] text-muted-foreground pl-3 border-l border-emerald-500/40 mt-1 space-y-0.5">
-                    <p>↳ repo: acme/api • Dockerfile</p>
-                    <p>↳ repo: acme/api • docker-compose.yml</p>
-                    <p>↳ repo: acme/api • .github/workflows/deploy.yml</p>
+                  <div className="text-[11px] text-muted-foreground pl-3 border-l border-emerald-500/40 mt-1 space-y-0.5 min-w-0">
+                    <p className="break-all">↳ repo: acme/api • Dockerfile</p>
+                    <p className="break-all">↳ repo: acme/api • docker-compose.yml</p>
+                    <p className="break-all">↳ repo: acme/api • .github/workflows/deploy.yml</p>
                   </div>
                 </div>
                 <p className="text-xs leading-5 text-muted-foreground">
@@ -322,31 +322,31 @@ export default function LandingPage() {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-border/80 bg-card/70 p-6 backdrop-blur-xs space-y-4">
+            <div className="rounded-2xl border border-border/80 bg-card/70 p-4 sm:p-6 backdrop-blur-xs space-y-4 min-w-0">
               <div className="flex items-center justify-between border-b border-border/60 pb-3 text-xs">
                 <span className="font-semibold text-foreground">Trace Path Example</span>
                 <span className="font-mono text-indigo-400 text-[11px]">Node Hierarchy</span>
               </div>
-              <div className="space-y-2 font-mono text-xs">
-                <div className="flex items-center gap-2 text-zinc-300">
-                  <span className="size-2 rounded-full bg-indigo-400" />
-                  Candidate: Alex Rivera
+              <div className="space-y-2 font-mono text-xs min-w-0">
+                <div className="flex items-center gap-2 text-zinc-300 min-w-0">
+                  <span className="size-2 rounded-full bg-indigo-400 shrink-0" />
+                  <span className="truncate">Candidate: Alex Rivera</span>
                 </div>
-                <div className="ml-4 flex items-center gap-2 text-zinc-400 border-l border-border pl-3">
-                  <FileText className="size-3 text-zinc-500" />
-                  Claim: &quot;Docker & Containerization&quot;
+                <div className="ml-2 sm:ml-4 flex items-center gap-2 text-zinc-400 border-l border-border pl-2.5 sm:pl-3 min-w-0">
+                  <FileText className="size-3 text-zinc-500 shrink-0" />
+                  <span className="truncate">Claim: &quot;Docker & Containerization&quot;</span>
                 </div>
-                <div className="ml-8 flex items-center gap-2 text-emerald-400 border-l border-border pl-3 font-semibold">
-                  <CheckCircle2 className="size-3" />
-                  Verified Skill: Docker (PROVEN)
+                <div className="ml-4 sm:ml-8 flex items-center gap-2 text-emerald-400 border-l border-border pl-2.5 sm:pl-3 font-semibold min-w-0">
+                  <CheckCircle2 className="size-3 shrink-0" />
+                  <span className="truncate">Verified Skill: Docker (PROVEN)</span>
                 </div>
-                <div className="ml-12 flex items-center gap-2 text-zinc-300 border-l border-border pl-3">
-                  <GitBranch className="size-3 text-muted-foreground" />
-                  Repo: alexrivera/cloud-service
+                <div className="ml-6 sm:ml-12 flex items-center gap-2 text-zinc-300 border-l border-border pl-2.5 sm:pl-3 min-w-0">
+                  <GitBranch className="size-3 text-muted-foreground shrink-0" />
+                  <span className="truncate">Repo: alexrivera/cloud-service</span>
                 </div>
-                <div className="ml-16 flex items-center gap-2 text-indigo-300 border-l border-border pl-3">
-                  <FileCode2 className="size-3" />
-                  Artifact: Dockerfile & docker-compose.yml
+                <div className="ml-8 sm:ml-16 flex items-center gap-2 text-indigo-300 border-l border-border pl-2.5 sm:pl-3 min-w-0">
+                  <FileCode2 className="size-3 shrink-0" />
+                  <span className="truncate">Artifact: Dockerfile & docker-compose.yml</span>
                 </div>
               </div>
             </div>

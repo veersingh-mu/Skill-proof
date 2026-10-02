@@ -236,14 +236,14 @@ export function SkillVerificationCard({
                     className="rounded-lg border border-border/60 bg-card/90 p-3.5 space-y-2 text-xs"
                   >
                     <div className="flex flex-wrap items-center justify-between gap-2">
-                      <div className="flex items-center gap-2">
+                      <div className="flex flex-wrap items-center gap-2 min-w-0">
                         <span
-                          className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium border ${meta.color}`}
+                          className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium border shrink-0 ${meta.color}`}
                         >
                           <ItemIcon className="size-3" />
                           {meta.label}
                         </span>
-                        <span className="font-semibold text-foreground font-mono">
+                        <span className="font-semibold text-foreground font-mono break-all">
                           {item.repositoryName}
                         </span>
                         {item.filePath && (
