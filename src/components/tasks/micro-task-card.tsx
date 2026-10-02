@@ -33,12 +33,12 @@ interface MicroTaskCardProps {
 
 function DifficultyBadge({ difficulty }: { difficulty: MicroTask["difficulty"] }) {
   const map: Record<string, string> = {
-    BEGINNER: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30",
-    INTERMEDIATE: "bg-amber-500/15 text-amber-300 border-amber-500/30",
-    ADVANCED: "bg-red-500/15 text-red-300 border-red-500/30",
+    BEGINNER: "bg-[#E3F3E8] text-[#2E8B57] border-[#2E8B57]/30",
+    INTERMEDIATE: "bg-[#FFF0D7] text-[#D99125] border-[#D99125]/30",
+    ADVANCED: "bg-[#F4E2D3] text-[#A95F3D] border-[#E8C5B0]",
   };
   return (
-    <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider border ${map[difficulty] ?? map["INTERMEDIATE"]}`}>
+    <span className={`px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider border ${map[difficulty] ?? map["INTERMEDIATE"]}`}>
       {difficulty}
     </span>
   );
@@ -46,8 +46,8 @@ function DifficultyBadge({ difficulty }: { difficulty: MicroTask["difficulty"] }
 
 function SectionHeader({ icon: Icon, label }: { icon: React.ElementType; label: string }) {
   return (
-    <div className="flex items-center gap-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
-      <Icon className="size-3.5 text-emerald-400" />
+    <div className="flex items-center gap-2 text-xs font-bold text-[#A95F3D] uppercase tracking-wider mb-2.5">
+      <Icon className="size-3.5 text-[#A95F3D]" />
       {label}
     </div>
   );
@@ -112,100 +112,101 @@ export function MicroTaskCard({ task, gapContext, onRegenerate, isRegenerating }
       setIsAnalyzing(false);
     }
   };
+
   return (
     <div className="space-y-5">
-      <div className="rounded-xl border border-emerald-500/30 bg-gradient-to-b from-emerald-500/[0.06] to-card/60 p-5 shadow-sm space-y-3">
+      <div className="rounded-2xl border border-[#A95F3D]/25 bg-white p-6 shadow-xs space-y-3.5">
         <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
           <div className="space-y-2">
-            <div className="flex items-center gap-2 text-xs text-emerald-400 font-semibold uppercase tracking-wider">
-              <Sparkles className="size-3.5" />
-              AI-Generated Task
+            <div className="flex items-center gap-2 text-xs text-[#A95F3D] font-bold uppercase tracking-wider">
+              <Sparkles className="size-3.5 text-[#A95F3D]" />
+              Practical Verification Task
             </div>
-            <h2 className="text-xl font-bold text-foreground leading-snug">{task.title}</h2>
+            <h2 className="text-xl sm:text-2xl font-extrabold text-[#241914] leading-snug">{task.title}</h2>
           </div>
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2 self-start sm:self-auto">
             <DifficultyBadge difficulty={task.difficulty} />
-            <span className="flex items-center gap-1.5 text-xs text-muted-foreground bg-background/60 border border-border/40 rounded-full px-2.5 py-1">
-              <Clock className="size-3 text-muted-foreground" />
+            <span className="flex items-center gap-1.5 text-xs text-[#756B64] font-medium bg-[#FAF7F2] border border-[#E7DCD1] rounded-lg px-2.5 py-1">
+              <Clock className="size-3 text-[#756B64]" />
               {task.estimatedTime}
             </span>
           </div>
         </div>
 
-        <p className="text-sm text-foreground/90 leading-relaxed">{task.objective}</p>
+        <p className="text-sm text-[#756B64] leading-relaxed">{task.objective}</p>
 
-        <div className="flex flex-wrap gap-2 pt-1 border-t border-border/40">
-          <span className="text-[11px] text-muted-foreground">
+        <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-[#E7DCD1]">
+          <span className="text-xs text-[#756B64]">
             Targeting gap:{" "}
-            <span className="font-semibold text-foreground">{gapContext.skill}</span>
+            <span className="font-bold text-[#241914]">{gapContext.skill}</span>
           </span>
-          <span className="text-muted-foreground">·</span>
-          <span className={`text-[11px] font-semibold ${gapContext.gapType === "EVIDENCE_GAP" ? "text-red-300" : "text-amber-300"}`}>
+          <span className="text-[#E7DCD1]">·</span>
+          <span className={`text-xs font-bold ${gapContext.gapType === "EVIDENCE_GAP" ? "text-[#C94A4A]" : "text-[#D99125]"}`}>
             {gapContext.gapType.replace("_", " ")}
           </span>
-          <span className="text-muted-foreground">·</span>
-          <span className="text-[11px] text-muted-foreground">
-            Score: <span className="font-semibold text-foreground font-mono">{gapContext.verificationScore}/100</span>
+          <span className="text-[#E7DCD1]">·</span>
+          <span className="text-xs text-[#756B64]">
+            Score: <span className="font-bold text-[#241914] font-mono">{gapContext.verificationScore}/100</span>
           </span>
         </div>
       </div>
 
-      <div className="rounded-xl border border-border/60 bg-card/60 p-4 space-y-2">
+      <div className="rounded-2xl border border-[#E7DCD1] bg-white p-5 shadow-xs space-y-2">
         <SectionHeader icon={FileText} label="Scenario" />
-        <p className="text-sm text-muted-foreground leading-relaxed">{task.scenario}</p>
+        <p className="text-sm text-[#756B64] leading-relaxed">{task.scenario}</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="rounded-xl border border-border/60 bg-card/60 p-4 space-y-2">
+        <div className="rounded-2xl border border-[#E7DCD1] bg-white p-5 shadow-xs space-y-2">
           <SectionHeader icon={ListChecks} label="Requirements" />
-          <ul className="space-y-1.5">
+          <ul className="space-y-2">
             {task.requirements.map((req, i) => (
-              <li key={i} className="flex items-start gap-2 text-sm text-foreground/90 min-w-0 break-words">
-                <span className="mt-0.5 size-4 shrink-0 rounded bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center text-[10px] font-bold text-indigo-300">
+              <li key={i} className="flex items-start gap-2.5 text-sm text-[#241914] min-w-0 break-words">
+                <span className="mt-0.5 size-4 shrink-0 rounded bg-[#F4E2D3] border border-[#E8C5B0] flex items-center justify-center text-[10px] font-bold text-[#A95F3D]">
                   {i + 1}
                 </span>
-                <span className="min-w-0 flex-1">{req}</span>
+                <span className="min-w-0 flex-1 leading-snug">{req}</span>
               </li>
             ))}
           </ul>
         </div>
 
-        <div className="rounded-xl border border-border/60 bg-card/60 p-4 space-y-2">
+        <div className="rounded-2xl border border-[#E7DCD1] bg-white p-5 shadow-xs space-y-2">
           <SectionHeader icon={Zap} label="Implementation Steps" />
-          <ol className="space-y-1.5">
+          <ol className="space-y-2">
             {task.steps.map((step, i) => (
-              <li key={i} className="flex items-start gap-2 text-sm text-foreground/90 min-w-0 break-words">
-                <span className="mt-0.5 size-4 shrink-0 rounded-full bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-[10px] font-bold text-emerald-300">
+              <li key={i} className="flex items-start gap-2.5 text-sm text-[#241914] min-w-0 break-words">
+                <span className="mt-0.5 size-4 shrink-0 rounded-full bg-[#E3F3E8] border border-[#2E8B57]/30 flex items-center justify-center text-[10px] font-bold text-[#2E8B57]">
                   {i + 1}
                 </span>
-                <span className="min-w-0 flex-1">{step}</span>
+                <span className="min-w-0 flex-1 leading-snug">{step}</span>
               </li>
             ))}
           </ol>
         </div>
       </div>
 
-      <div className="rounded-xl border border-border/60 bg-card/60 p-4 space-y-2">
+      <div className="rounded-2xl border border-[#E7DCD1] bg-white p-5 shadow-xs space-y-2">
         <SectionHeader icon={Code2} label="Deliverables" />
-        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {task.deliverables.map((d, i) => (
-            <li key={i} className="flex items-center gap-2 text-sm text-foreground/90 min-w-0 break-words">
-              <span className="size-1.5 rounded-full bg-emerald-400 shrink-0" />
+            <li key={i} className="flex items-center gap-2 text-sm text-[#241914] min-w-0 break-words">
+              <span className="size-2 rounded-full bg-[#2E8B57] shrink-0" />
               <span className="min-w-0 flex-1">{d}</span>
             </li>
           ))}
         </ul>
       </div>
 
-      <div className="rounded-xl border border-border/60 bg-card/60 p-4 space-y-2">
+      <div className="rounded-2xl border border-[#E7DCD1] bg-white p-5 shadow-xs space-y-2">
         <SectionHeader icon={CheckSquare} label="Acceptance Criteria" />
-        <ul className="space-y-1.5">
+        <ul className="space-y-2">
           {task.acceptanceCriteria.map((c, i) => (
-            <li key={i} className="flex items-start gap-2 text-sm text-foreground/90 min-w-0 break-words">
-              <span className="mt-0.5 size-4 shrink-0 rounded border border-border/60 bg-background/50 flex items-center justify-center text-[10px] text-muted-foreground">
-                □
+            <li key={i} className="flex items-start gap-2 text-sm text-[#241914] min-w-0 break-words">
+              <span className="mt-0.5 size-4 shrink-0 rounded border border-[#E7DCD1] bg-[#FAF7F2] flex items-center justify-center text-[10px] text-[#756B64]">
+                ✓
               </span>
-              <span className="min-w-0 flex-1">{c}</span>
+              <span className="min-w-0 flex-1 leading-snug">{c}</span>
             </li>
           ))}
         </ul>
@@ -214,36 +215,36 @@ export function MicroTaskCard({ task, gapContext, onRegenerate, isRegenerating }
       {/* Current Evidence vs Future Expected Evidence */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* CURRENT EVIDENCE */}
-        <div className="rounded-xl border border-border/80 bg-card/60 p-4 space-y-2.5">
+        <div className="rounded-2xl border border-[#E7DCD1] bg-white p-5 shadow-xs space-y-2.5">
           <div className="flex items-center justify-between">
             <SectionHeader icon={FileText} label="Current Evidence Status" />
-            <span className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider ${
+            <span className={`text-[10px] font-bold px-2.5 py-0.5 rounded-md uppercase tracking-wider ${
               gapContext.candidateStatus === "CLAIMED_ONLY"
-                ? "bg-red-500/15 text-red-300 border border-red-500/30"
-                : "bg-amber-500/15 text-amber-300 border border-amber-500/30"
+                ? "bg-[#FAF7F2] text-[#C94A4A] border border-[#C94A4A]/30"
+                : "bg-[#FFF0D7] text-[#D99125] border border-[#D99125]/30"
             }`}>
               {gapContext.candidateStatus.replace("_", " ")} ({gapContext.verificationScore}/100)
             </span>
           </div>
-          <div className="p-3 rounded-lg bg-background/50 border border-border/40 text-xs text-muted-foreground leading-relaxed">
-            <strong className="text-foreground/90 block mb-1">Current factual state:</strong>
+          <div className="p-3.5 rounded-xl bg-[#FAF7F2] border border-[#E7DCD1] text-xs text-[#756B64] leading-relaxed">
+            <strong className="text-[#241914] block mb-1">Current factual state:</strong>
             {gapContext.explanation}
           </div>
-          <p className="text-[11px] text-muted-foreground/70 italic">
+          <p className="text-[11px] text-[#756B64] italic">
             This verification status is deterministic and cannot be modified by AI task generation.
           </p>
         </div>
 
         {/* EXPECTED EVIDENCE FROM TASK (FUTURE) */}
-        <div className="rounded-xl border border-blue-500/30 bg-blue-500/[0.04] p-4 space-y-2.5">
+        <div className="rounded-2xl border border-[#A95F3D]/25 bg-[#FAF7F2] p-5 shadow-xs space-y-2.5">
           <div className="flex items-center justify-between">
-            <SectionHeader icon={FlaskConical} label="Expected Evidence From Task (Future)" />
-            <span className="text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider bg-blue-500/15 text-blue-300 border border-blue-500/30">
+            <SectionHeader icon={FlaskConical} label="Expected Evidence From Task" />
+            <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-md uppercase tracking-wider bg-[#F4E2D3] text-[#A95F3D] border border-[#E8C5B0]">
               Future Artifacts
             </span>
           </div>
-          <div className="flex items-start gap-2 text-[11px] text-blue-300/80 mb-2">
-            <AlertTriangle className="size-3.5 shrink-0 mt-0.5 text-blue-400" />
+          <div className="flex items-start gap-2 text-[11px] text-[#756B64] mb-2">
+            <AlertTriangle className="size-3.5 shrink-0 mt-0.5 text-[#D99125]" />
             <span>
               These are <strong>expected future artifacts</strong> — not current evidence. Completing
               this task will produce GitHub artifacts that can be evaluated later.
@@ -251,8 +252,8 @@ export function MicroTaskCard({ task, gapContext, onRegenerate, isRegenerating }
           </div>
           <ul className="space-y-1.5">
             {task.evidenceProduced.map((e, i) => (
-              <li key={i} className="flex items-center gap-2 text-sm text-foreground/90">
-                <span className="size-1.5 rounded-full bg-blue-400 shrink-0" />
+              <li key={i} className="flex items-center gap-2 text-sm text-[#241914]">
+                <span className="size-2 rounded-full bg-[#A95F3D] shrink-0" />
                 {e}
               </li>
             ))}
@@ -261,11 +262,11 @@ export function MicroTaskCard({ task, gapContext, onRegenerate, isRegenerating }
       </div>
 
       {task.suggestedTechnologies.length > 0 && (
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex flex-wrap gap-2">
           {task.suggestedTechnologies.map((tech) => (
             <span
               key={tech}
-              className="px-2.5 py-1 rounded-full text-[11px] font-medium bg-muted/60 text-muted-foreground border border-border/40"
+              className="px-3 py-1 rounded-lg text-xs font-bold bg-white text-[#241914] border border-[#E7DCD1] shadow-2xs"
             >
               {tech}
             </span>
@@ -290,14 +291,14 @@ export function MicroTaskCard({ task, gapContext, onRegenerate, isRegenerating }
         )}
       </div>
 
-      <div className="flex flex-wrap items-center gap-3 pt-1">
+      <div className="flex flex-wrap items-center gap-3 pt-2">
         <Button
           type="button"
           variant="outline"
           size="sm"
           onClick={onRegenerate}
           disabled={isRegenerating || isAnalyzing}
-          className="text-xs h-8 border-border hover:bg-muted"
+          className="text-xs font-semibold h-9 border-[#E7DCD1] text-[#241914] hover:bg-[#FAF7F2] rounded-xl"
         >
           <RefreshCw className={`size-3 mr-1.5 ${isRegenerating ? "animate-spin" : ""}`} />
           {isRegenerating ? "Regenerating..." : "Regenerate Task"}
@@ -307,10 +308,10 @@ export function MicroTaskCard({ task, gapContext, onRegenerate, isRegenerating }
           asChild
           variant="ghost"
           size="sm"
-          className="text-xs h-8 text-muted-foreground hover:text-emerald-300 hover:bg-emerald-500/10"
+          className="text-xs font-semibold h-9 text-[#A95F3D] hover:bg-[#F4E2D3]/40 rounded-xl"
         >
           <Link href={`/evidence?skill=${encodeURIComponent(task.skill)}`}>
-            <Network className="size-3 mr-1.5 text-emerald-400" />
+            <Network className="size-3 mr-1.5 text-[#A95F3D]" />
             View Evidence Graph
           </Link>
         </Button>
@@ -319,7 +320,7 @@ export function MicroTaskCard({ task, gapContext, onRegenerate, isRegenerating }
           asChild
           variant="ghost"
           size="sm"
-          className="text-xs h-8 text-muted-foreground hover:text-foreground hover:bg-muted"
+          className="text-xs font-semibold h-9 text-[#756B64] hover:text-[#241914] hover:bg-[#FAF7F2] rounded-xl"
         >
           <Link href="/jobs">
             <ExternalLink className="size-3 mr-1.5" />

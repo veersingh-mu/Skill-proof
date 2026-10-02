@@ -13,34 +13,34 @@ export function JobRequirements({ analysis }: JobRequirementsProps) {
 
   if (extractedSkills.length === 0) {
     return (
-      <div className="rounded-xl border border-dashed border-border/80 bg-card/40 p-6 text-center text-xs text-muted-foreground">
+      <div className="rounded-2xl border border-dashed border-[#E7DCD1] bg-white p-6 text-center text-xs text-[#756B64]">
         No recognized technical skill requirements were detected in this job description. Try adding explicit skills like React, Node.js, Docker, or Python.
       </div>
     );
   }
 
   return (
-    <div className="rounded-xl border border-border/70 bg-card/60 p-5 sm:p-6 shadow-sm space-y-5">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-border/40 pb-3">
+    <div className="rounded-2xl border border-[#E7DCD1] bg-white p-6 sm:p-7 shadow-xs space-y-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#E7DCD1] pb-4">
         <div>
           <div className="flex items-center gap-2">
-            <Layers className="size-4 text-emerald-400" />
-            <h3 className="text-sm font-semibold text-foreground">
+            <Layers className="size-4 text-[#A95F3D]" />
+            <h3 className="text-sm font-bold text-[#241914]">
               Extracted Technical Requirements
             </h3>
             {title && (
-              <span className="text-xs text-muted-foreground font-normal">
+              <span className="text-xs text-[#756B64] font-medium">
                 ({title})
               </span>
             )}
           </div>
-          <p className="text-xs text-muted-foreground mt-0.5">
+          <p className="text-xs text-[#756B64] mt-0.5">
             Normalized using SkillProof taxonomy and classified into required vs. preferred categories.
           </p>
         </div>
 
         <div className="flex items-center gap-2 self-start sm:self-auto">
-          <Badge variant="outline" className="text-xs font-mono bg-background/50 border-border">
+          <Badge variant="outline" className="text-xs font-mono font-bold bg-[#FAF7F2] border-[#E7DCD1] text-[#241914] rounded-lg">
             {extractedSkills.length} Total Skill{extractedSkills.length === 1 ? "" : "s"}
           </Badge>
         </div>
@@ -48,27 +48,27 @@ export function JobRequirements({ analysis }: JobRequirementsProps) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {/* Required Skills Section */}
-        <div className="space-y-3 rounded-lg border border-indigo-500/20 bg-indigo-500/[0.03] p-4">
+        <div className="space-y-3 rounded-xl border border-[#A95F3D]/25 bg-[#F4E2D3]/30 p-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <CheckCircle className="size-4 text-indigo-400 shrink-0" />
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-indigo-300">
+              <CheckCircle className="size-4 text-[#A95F3D] shrink-0" />
+              <h4 className="text-xs font-bold uppercase tracking-wider text-[#A95F3D]">
                 Required Skills
               </h4>
             </div>
-            <span className="text-xs font-mono font-medium text-indigo-300/80">
+            <span className="text-xs font-mono font-bold text-[#A95F3D]">
               {requiredSkills.length} requirement{requiredSkills.length === 1 ? "" : "s"}
             </span>
           </div>
 
           {requiredSkills.length === 0 ? (
-            <p className="text-xs text-muted-foreground italic">None explicitly classified as required.</p>
+            <p className="text-xs text-[#756B64] italic">None explicitly classified as required.</p>
           ) : (
             <div className="flex flex-wrap gap-2 pt-1">
               {requiredSkills.map((skill) => (
                 <span
                   key={skill}
-                  className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium border border-indigo-400/30 bg-indigo-500/10 text-indigo-200"
+                  className="inline-flex items-center px-3 py-1 rounded-lg text-xs font-bold border border-[#A95F3D]/30 bg-white text-[#A95F3D] shadow-2xs"
                 >
                   {skill}
                 </span>
@@ -78,27 +78,27 @@ export function JobRequirements({ analysis }: JobRequirementsProps) {
         </div>
 
         {/* Preferred Skills Section */}
-        <div className="space-y-3 rounded-lg border border-blue-500/20 bg-blue-500/[0.03] p-4">
+        <div className="space-y-3 rounded-xl border border-[#E7DCD1] bg-[#FAF7F2] p-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Star className="size-4 text-blue-400 shrink-0" />
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-blue-300">
+              <Star className="size-4 text-[#6D351F] shrink-0" />
+              <h4 className="text-xs font-bold uppercase tracking-wider text-[#6D351F]">
                 Preferred / Nice-to-Have
               </h4>
             </div>
-            <span className="text-xs font-mono font-medium text-blue-300/80">
+            <span className="text-xs font-mono font-bold text-[#756B64]">
               {preferredSkills.length} requirement{preferredSkills.length === 1 ? "" : "s"}
             </span>
           </div>
 
           {preferredSkills.length === 0 ? (
-            <p className="text-xs text-muted-foreground italic">None explicitly classified as preferred.</p>
+            <p className="text-xs text-[#756B64] italic">None explicitly classified as preferred.</p>
           ) : (
             <div className="flex flex-wrap gap-2 pt-1">
               {preferredSkills.map((skill) => (
                 <span
                   key={skill}
-                  className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium border border-blue-400/30 bg-blue-500/10 text-blue-200"
+                  className="inline-flex items-center px-3 py-1 rounded-lg text-xs font-bold border border-[#E7DCD1] bg-white text-[#241914] shadow-2xs"
                 >
                   {skill}
                 </span>

@@ -76,28 +76,28 @@ export function TaskSubmissionForm({
   const displayError = localError || errorMessage;
 
   return (
-    <div className="rounded-2xl border border-indigo-500/30 bg-card/80 p-6 sm:p-8 space-y-6 shadow-xl shadow-indigo-950/20 backdrop-blur-sm">
+    <div className="rounded-2xl border border-[#A95F3D]/25 bg-white p-6 sm:p-8 space-y-6 shadow-xs">
       <div className="text-center space-y-2 max-w-xl mx-auto">
-        <span className="mx-auto flex size-12 items-center justify-center rounded-2xl border border-indigo-500/30 bg-indigo-500/10 text-indigo-400 shadow-xs">
+        <span className="mx-auto flex size-12 items-center justify-center rounded-2xl border border-[#E8C5B0] bg-[#F4E2D3] text-[#A95F3D] shadow-xs">
           <GitHubIcon className="size-6" />
         </span>
-        <h3 className="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
+        <h3 className="text-xl font-extrabold tracking-tight text-[#241914] sm:text-2xl">
           Show us the work.
         </h3>
-        <p className="text-xs text-muted-foreground sm:text-sm">
+        <p className="text-xs text-[#756B64] sm:text-sm">
           Submit the repository containing your completed task. SkillProof will inspect
-          authentic code, configurations, and workflows to re-verify <strong className="text-foreground">{skill}</strong>.
+          authentic code, configurations, and workflows to re-verify <strong className="text-[#241914]">{skill}</strong>.
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="max-w-xl mx-auto space-y-4">
         <div className="space-y-2">
-          <label htmlFor="repo-url-input" className="block text-xs font-semibold text-foreground uppercase tracking-wider">
+          <label htmlFor="repo-url-input" className="block text-xs font-bold text-[#756B64] uppercase tracking-wider">
             GitHub Repository URL
           </label>
-          <div className="flex flex-col sm:flex-row gap-2">
+          <div className="flex flex-col sm:flex-row gap-2.5">
             <div className="relative flex-1">
-              <span className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-muted-foreground">
+              <span className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-[#756B64]">
                 <GitHubIcon className="size-4" />
               </span>
               <input
@@ -114,13 +114,13 @@ export function TaskSubmissionForm({
                 }}
                 disabled={isAnalyzing}
                 placeholder="https://github.com/username/repository"
-                className="w-full pl-10 pr-3.5 py-2.5 text-xs sm:text-sm rounded-xl border border-border bg-secondary/40 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-indigo-400 focus:border-indigo-400 transition-colors disabled:opacity-50 min-h-[44px]"
+                className="w-full pl-10 pr-3.5 py-2.5 text-xs sm:text-sm rounded-xl border border-[#E7DCD1] bg-[#FAF7F2] text-[#241914] placeholder:text-[#756B64] focus:outline-none focus:ring-1 focus:ring-[#A95F3D] focus:border-[#A95F3D] transition-colors disabled:opacity-50 min-h-[44px]"
               />
             </div>
             <Button
               type="submit"
               disabled={isAnalyzing || !url.trim()}
-              className="w-full sm:w-auto bg-indigo-600 text-white hover:bg-indigo-500 font-semibold text-xs h-11 min-h-[44px] px-6 shrink-0 shadow-sm shadow-indigo-600/30 transition-all"
+              className="w-full sm:w-auto bg-[#A95F3D] text-white hover:bg-[#8E4F32] font-bold text-xs h-11 min-h-[44px] px-6 shrink-0 rounded-xl shadow-xs transition-all"
             >
               {isAnalyzing ? (
                 <>
@@ -138,14 +138,14 @@ export function TaskSubmissionForm({
         </div>
 
         {displayError && (
-          <div className="flex items-start gap-2 p-3.5 rounded-xl bg-red-500/10 border border-red-500/30 text-xs text-red-300 animate-in fade-in duration-200">
-            <AlertCircle className="size-4 shrink-0 mt-0.5 text-red-400" />
-            <div className="flex-1 leading-relaxed">{displayError}</div>
+          <div className="flex items-start gap-2 p-3.5 rounded-xl bg-[#C94A4A]/10 border border-[#C94A4A]/30 text-xs text-[#C94A4A] animate-in fade-in duration-200">
+            <AlertCircle className="size-4 shrink-0 mt-0.5 text-[#C94A4A]" />
+            <div className="flex-1 leading-relaxed font-medium">{displayError}</div>
           </div>
         )}
 
-        <div className="flex items-center justify-center gap-2 text-[11px] text-muted-foreground pt-1">
-          <CheckCircle2 className="size-3 text-emerald-400 shrink-0" />
+        <div className="flex items-center justify-center gap-2 text-[11px] text-[#756B64] pt-1">
+          <CheckCircle2 className="size-3.5 text-[#2E8B57] shrink-0" />
           <span>Factual, read-only analyzer. Zero hallucinations. Strict Phase 4 deterministic scoring.</span>
         </div>
       </form>

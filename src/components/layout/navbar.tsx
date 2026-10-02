@@ -9,6 +9,7 @@ import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/s
 import { cn } from "@/lib/utils";
 
 const navigation = [
+  { href: "/", label: "Home" },
   { href: "/analyze", label: "Analyze" },
   { href: "/dashboard", label: "Dashboard" },
   { href: "/evidence", label: "Evidence" },
@@ -22,14 +23,14 @@ function Brand({ onClick }: { onClick?: () => void }) {
     <Link
       href="/"
       onClick={onClick}
-      className="group flex items-center gap-2.5 font-bold tracking-[0.14em] text-foreground transition-opacity hover:opacity-90"
+      className="group flex items-center gap-2.5 font-bold tracking-[0.08em] text-[#241914] transition-opacity hover:opacity-90"
     >
-      <span className="relative flex size-8 items-center justify-center rounded-lg border border-indigo-500/30 bg-gradient-to-br from-indigo-500/20 to-purple-500/10 text-indigo-300 shadow-xs shadow-indigo-500/10 transition-transform group-hover:scale-105">
-        <ShieldCheck className="size-4.5 text-indigo-400" />
-        <span className="absolute -top-0.5 -right-0.5 size-2 rounded-full bg-emerald-400 ring-2 ring-background" />
+      <span className="relative flex size-8 items-center justify-center rounded-lg border border-[#A95F3D]/30 bg-[#F4E2D3] text-[#A95F3D] shadow-xs transition-transform group-hover:scale-105">
+        <ShieldCheck className="size-4.5 text-[#A95F3D]" />
+        <span className="absolute -top-0.5 -right-0.5 size-2 rounded-full bg-[#2E8B57] ring-2 ring-white" />
       </span>
-      <span className="flex items-center gap-1.5 text-sm font-semibold tracking-wider text-zinc-100">
-        SKILLPROOF
+      <span className="flex items-center gap-1 text-base font-bold tracking-tight text-[#241914]">
+        SkillProof
       </span>
     </Link>
   );
@@ -40,27 +41,30 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/80 bg-background/80 backdrop-blur-md">
-      <div className="mx-auto flex h-14 max-w-[1400px] items-center justify-between px-4 sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-50 border-b border-[#E7DCD1] bg-[#FAF7F2]/95 backdrop-blur-md">
+      <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-8">
           <Brand />
-          <nav className="hidden items-center gap-1 md:flex" aria-label="Primary navigation">
+          <nav className="hidden items-center gap-1.5 md:flex" aria-label="Primary navigation">
             {navigation.map((item) => {
-              const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
+              const isActive =
+                item.href === "/"
+                  ? pathname === "/"
+                  : pathname === item.href || pathname.startsWith(item.href);
               return (
                 <Link
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "relative rounded-md px-3 py-1.5 text-xs font-medium transition-all duration-150",
+                    "relative rounded-full px-3.5 py-1.5 text-xs font-medium transition-all duration-150",
                     isActive
-                      ? "text-zinc-100 bg-secondary/80 shadow-2xs font-semibold"
-                      : "text-zinc-400 hover:text-zinc-200 hover:bg-secondary/40"
+                      ? "text-[#241914] bg-[#F7EFE7] font-semibold border border-[#E7DCD1]"
+                      : "text-[#756B64] hover:text-[#241914] hover:bg-[#F7EFE7]/60"
                   )}
                 >
                   {item.label}
                   {isActive && (
-                    <span className="absolute inset-x-2 -bottom-[11px] h-[2px] bg-gradient-to-r from-indigo-500 to-emerald-400 rounded-full" />
+                    <span className="sr-only">(current page)</span>
                   )}
                 </Link>
               );
@@ -68,20 +72,20 @@ export function Navbar() {
           </nav>
         </div>
 
-        <div className="hidden items-center gap-3 md:flex">
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/[0.07] px-2.5 py-1 text-[11px] font-medium text-emerald-300">
+        <div className="hidden items-center gap-3.5 md:flex">
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-[#2E8B57]/30 bg-[#E3F3E8] px-3 py-1 text-[11px] font-medium text-[#2E8B57]">
             <span className="relative flex size-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#2E8B57] opacity-75" />
+              <span className="relative inline-flex size-2 rounded-full bg-[#2E8B57]" />
             </span>
-            <Activity className="size-3 text-emerald-400" />
+            <Activity className="size-3 text-[#2E8B57]" />
             <span>Deterministic Engine</span>
           </div>
 
           <Button
             asChild
             size="sm"
-            className="h-8 text-xs font-medium bg-indigo-600 hover:bg-indigo-500 text-white border border-indigo-400/20 shadow-xs shadow-indigo-600/20 transition-all hover:shadow-indigo-600/30"
+            className="h-9 px-4 text-xs font-semibold bg-[#A95F3D] hover:bg-[#8F4E30] text-white shadow-xs rounded-full transition-all"
           >
             <Link href="/analyze">
               <Sparkles className="size-3.5 mr-1" />
@@ -90,59 +94,72 @@ export function Navbar() {
           </Button>
         </div>
 
-        {/* Mobile menu trigger with 44px min touch target */}
-        <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-          <SheetTrigger asChild className="md:hidden">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="size-11 min-h-[44px] min-w-[44px] p-2.5"
-              aria-label="Open navigation menu"
-            >
-              <Menu className="size-5" />
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="right" className="w-72 bg-card border-l border-border p-6 flex flex-col justify-between">
-            <div>
-              <SheetTitle className="sr-only">Navigation</SheetTitle>
-              <div className="mt-2">
-                <Brand onClick={() => setMobileMenuOpen(false)} />
+        {/* Mobile controls */}
+        <div className="flex items-center gap-2 md:hidden">
+          <Button
+            asChild
+            size="sm"
+            className="h-8 px-3 text-xs font-semibold bg-[#A95F3D] hover:bg-[#8F4E30] text-white rounded-full"
+          >
+            <Link href="/analyze">Analyze</Link>
+          </Button>
+
+          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+            <SheetTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="size-10 min-h-[40px] min-w-[40px] text-[#241914] hover:bg-[#F7EFE7]"
+                aria-label="Open navigation menu"
+              >
+                <Menu className="size-5" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-80 bg-[#FAF7F2] border-l border-[#E7DCD1] p-6 flex flex-col justify-between">
+              <div>
+                <SheetTitle className="sr-only">Navigation</SheetTitle>
+                <div className="mt-2">
+                  <Brand onClick={() => setMobileMenuOpen(false)} />
+                </div>
+                <div className="mt-5 flex items-center gap-2 rounded-xl border border-[#2E8B57]/30 bg-[#E3F3E8] p-2.5 text-xs text-[#2E8B57] font-medium">
+                  <span className="size-2 rounded-full bg-[#2E8B57] animate-pulse" />
+                  Deterministic Engine Active
+                </div>
+                <nav className="mt-6 grid gap-1.5" aria-label="Mobile navigation">
+                  {navigation.map((item) => {
+                    const isActive =
+                      item.href === "/"
+                        ? pathname === "/"
+                        : pathname === item.href || pathname.startsWith(item.href);
+                    return (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className={cn(
+                          "flex items-center justify-between rounded-xl px-4 py-3 text-sm font-medium transition-colors min-h-[44px]",
+                          isActive
+                            ? "bg-white text-[#241914] font-bold border border-[#E7DCD1] shadow-xs"
+                            : "text-[#756B64] hover:bg-[#F7EFE7] hover:text-[#241914]"
+                        )}
+                      >
+                        {item.label}
+                        {isActive && <span className="size-2 rounded-full bg-[#A95F3D]" />}
+                      </Link>
+                    );
+                  })}
+                </nav>
               </div>
-              <div className="mt-6 flex items-center gap-2 rounded-lg border border-emerald-500/20 bg-emerald-500/[0.05] p-2 text-xs text-emerald-300">
-                <span className="size-2 rounded-full bg-emerald-400 animate-pulse" />
-                Deterministic Phase 4 Engine
-              </div>
-              <nav className="mt-6 grid gap-2" aria-label="Mobile navigation">
-                {navigation.map((item) => {
-                  const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href));
-                  return (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className={cn(
-                        "flex items-center justify-between rounded-lg px-3.5 py-3 text-sm font-medium transition-colors min-h-[44px]",
-                        isActive
-                          ? "bg-secondary text-foreground font-semibold"
-                          : "text-muted-foreground hover:bg-secondary/50 hover:text-foreground"
-                      )}
-                    >
-                      {item.label}
-                      {isActive && <span className="size-2 rounded-full bg-indigo-400" />}
-                    </Link>
-                  );
-                })}
-              </nav>
-            </div>
-            <Button
-              asChild
-              className="w-full bg-indigo-600 hover:bg-indigo-500 text-white text-xs h-11 min-h-[44px]"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              <Link href="/analyze">Start analysis</Link>
-            </Button>
-          </SheetContent>
-        </Sheet>
+              <Button
+                asChild
+                className="w-full bg-[#A95F3D] hover:bg-[#8F4E30] text-white text-xs h-11 min-h-[44px] rounded-xl font-semibold shadow-xs"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <Link href="/analyze">Start Skill Analysis</Link>
+              </Button>
+            </SheetContent>
+          </Sheet>
+        </div>
       </div>
     </header>
   );

@@ -12,13 +12,13 @@ interface RemainingGapsProps {
 export function RemainingGaps({ gaps }: RemainingGapsProps) {
   if (gaps.length === 0) {
     return (
-      <div className="rounded-xl border border-dashed border-border/80 bg-card/40 p-8 text-center space-y-2">
-        <Target className="size-8 text-muted-foreground mx-auto" />
-        <p className="text-sm font-semibold text-foreground">No active skill gaps</p>
-        <p className="text-xs text-muted-foreground">
+      <div className="rounded-2xl border border-dashed border-[#E7DCD1] bg-white p-8 text-center space-y-2">
+        <Target className="size-8 text-[#756B64] mx-auto" />
+        <p className="text-sm font-bold text-[#241914]">No active skill gaps</p>
+        <p className="text-xs text-[#756B64]">
           All evaluated requirements have verifiable proof, or run a job analysis to identify role-specific gaps.
         </p>
-        <Button asChild size="sm" variant="outline" className="text-xs mt-2">
+        <Button asChild size="sm" variant="outline" className="text-xs font-semibold mt-2 border-[#E7DCD1] text-[#241914] hover:bg-[#FAF7F2] rounded-xl">
           <Link href="/jobs">Analyze a Job Description</Link>
         </Button>
       </div>
@@ -26,43 +26,43 @@ export function RemainingGaps({ gaps }: RemainingGapsProps) {
   }
 
   return (
-    <div className="rounded-xl border border-border/80 bg-card/60 p-5 space-y-4">
-      <div className="flex items-center justify-between border-b border-border/60 pb-3">
+    <div className="rounded-2xl border border-[#E7DCD1] bg-white p-6 sm:p-7 space-y-5 shadow-xs">
+      <div className="flex items-center justify-between border-b border-[#E7DCD1] pb-4">
         <div className="flex items-center gap-2">
-          <Target className="size-4 text-emerald-400" />
-          <h3 className="text-sm font-bold text-foreground">Remaining Evidence Gaps</h3>
+          <Target className="size-4 text-[#A95F3D]" />
+          <h3 className="text-sm font-bold text-[#241914]">Remaining Evidence Gaps</h3>
         </div>
-        <span className="text-xs text-muted-foreground">
+        <span className="text-xs text-[#756B64]">
           {gaps.length} {gaps.length === 1 ? "gap identified" : "gaps identified"}
         </span>
       </div>
 
-      <div className="space-y-2.5">
+      <div className="space-y-3">
         {gaps.map((gap) => (
           <div
             key={gap.skill}
-            className="p-3.5 rounded-lg bg-background/50 border border-border/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
+            className="p-4 rounded-xl bg-[#FAF7F2] border border-[#E7DCD1] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
           >
             <div className="space-y-1">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="font-bold text-foreground text-sm">{gap.skill}</span>
-                <span className="px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">
+                <span className="font-bold text-[#241914] text-sm">{gap.skill}</span>
+                <span className="px-2.5 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-[#F4E2D3] text-[#A95F3D] border border-[#E8C5B0]">
                   {gap.requirementType}
                 </span>
-                <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
+                <span className={`px-2.5 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider ${
                   gap.priority === "HIGH"
-                    ? "bg-red-500/20 text-red-200 border border-red-500/40"
+                    ? "bg-[#C94A4A]/10 text-[#C94A4A] border border-[#C94A4A]/30"
                     : gap.priority === "MEDIUM"
-                    ? "bg-amber-500/20 text-amber-200 border border-amber-500/40"
-                    : "bg-blue-500/20 text-blue-200 border border-blue-500/40"
+                    ? "bg-[#FFF0D7] text-[#D99125] border border-[#D99125]/30"
+                    : "bg-[#FAF7F2] text-[#756B64] border border-[#E7DCD1]"
                 }`}>
                   {gap.priority} PRIORITY
                 </span>
-                <span className="text-muted-foreground text-[11px]">
-                  Current Status: <strong className="text-foreground">{gap.candidateStatus}</strong> ({gap.verificationScore}/100)
+                <span className="text-[#756B64] text-[11px]">
+                  Current Status: <strong className="text-[#241914]">{gap.candidateStatus}</strong> ({gap.verificationScore}/100)
                 </span>
               </div>
-              <p className="text-muted-foreground text-[11px] leading-relaxed">
+              <p className="text-[#756B64] text-[11px] leading-relaxed">
                 {gap.explanation}
               </p>
             </div>
@@ -70,7 +70,7 @@ export function RemainingGaps({ gaps }: RemainingGapsProps) {
             <Button
               asChild
               size="sm"
-              className="bg-emerald-500 text-zinc-950 hover:bg-emerald-400 font-semibold text-xs h-8 shrink-0 shadow-sm"
+              className="bg-[#A95F3D] text-white hover:bg-[#8E4F32] font-bold text-xs h-9 px-4 rounded-xl shrink-0 shadow-xs"
             >
               <Link href={`/tasks?skill=${encodeURIComponent(gap.skill)}`}>
                 <Sparkles className="size-3 mr-1.5" />

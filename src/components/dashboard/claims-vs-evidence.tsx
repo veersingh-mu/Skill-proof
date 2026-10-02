@@ -15,19 +15,19 @@ const STATUS_BADGE: Record<
   { label: string; icon: typeof CheckCircle2; className: string }
 > = {
   PROVEN: {
-    label: "PROVEN",
+    label: "VERIFIED",
     icon: CheckCircle2,
-    className: "border-emerald-400/40 bg-emerald-400/10 text-emerald-300",
+    className: "border-[#2E8B57]/30 bg-[#E3F3E8] text-[#2E8B57]",
   },
   PARTIAL: {
     label: "PARTIAL",
     icon: CircleAlert,
-    className: "border-amber-400/40 bg-amber-400/10 text-amber-300",
+    className: "border-[#D99125]/30 bg-[#FFF0D7] text-[#D99125]",
   },
   CLAIMED_ONLY: {
-    label: "CLAIMED-ONLY",
+    label: "INSUFFICIENT",
     icon: CircleDashed,
-    className: "border-zinc-700 bg-zinc-800 text-zinc-300",
+    className: "border-[#E7DCD1] bg-[#FAF7F2] text-[#756B64]",
   },
 };
 
@@ -39,37 +39,37 @@ export function ClaimsVsEvidence({ claims, verifications }: ClaimsVsEvidenceProp
   }
 
   return (
-    <section aria-label="Claims vs Evidence Pipeline" className="rounded-xl border border-border/80 bg-card/60 p-6 space-y-5">
-      <div className="space-y-1 border-b border-border/60 pb-3">
+    <section aria-label="Claims vs Evidence Pipeline" className="rounded-2xl border border-[#E7DCD1] bg-white p-6 sm:p-7 shadow-xs space-y-5">
+      <div className="space-y-1 border-b border-[#E7DCD1] pb-4">
         <div className="flex items-center gap-2">
-          <GitCompare className="size-4 text-emerald-400" />
-          <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider">
+          <GitCompare className="size-4 text-[#A95F3D]" />
+          <h2 className="text-xs font-bold text-[#241914] uppercase tracking-wider">
             Claims vs Factual Evidence Pipeline
           </h2>
         </div>
-        <p className="text-xs text-muted-foreground">
+        <p className="text-xs text-[#756B64]">
           Visual correlation between unverified resume claims, mined GitHub technical evidence, and deterministic verification results.
         </p>
       </div>
 
       {/* Header Pipeline Stages */}
-      <div className="hidden md:grid grid-cols-12 gap-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider px-3 pb-1">
+      <div className="hidden md:grid grid-cols-12 gap-3 text-xs font-bold text-[#756B64] uppercase tracking-wider px-3 pb-1">
         <div className="col-span-4 flex items-center gap-1.5">
-          <FileText className="size-3.5" />
+          <FileText className="size-3.5 text-[#A95F3D]" />
           <span>Resume Skill Claim</span>
         </div>
-        <div className="col-span-1 text-center font-mono">→</div>
+        <div className="col-span-1 text-center font-mono text-[#A95F3D]">→</div>
         <div className="col-span-4 flex items-center gap-1.5">
           <span>GitHub Activity Evidence</span>
         </div>
-        <div className="col-span-1 text-center font-mono">→</div>
+        <div className="col-span-1 text-center font-mono text-[#A95F3D]">→</div>
         <div className="col-span-2 text-right">
           <span>Verification Result</span>
         </div>
       </div>
 
       {/* List of Claims with pipeline mapping */}
-      <div className="divide-y divide-border/50 rounded-lg border border-border/70 overflow-hidden">
+      <div className="divide-y divide-[#E7DCD1] rounded-xl border border-[#E7DCD1] overflow-hidden bg-white">
         {claims.map((claim) => {
           const matched =
             verificationMap.get(claim.canonicalSkill.toLowerCase()) ||
@@ -83,20 +83,20 @@ export function ClaimsVsEvidence({ claims, verifications }: ClaimsVsEvidenceProp
           return (
             <div
               key={claim.id || claim.displayName}
-              className="p-3.5 bg-card/40 hover:bg-card/80 transition-colors flex flex-col md:grid md:grid-cols-12 md:items-center gap-3 text-xs"
+              className="p-3.5 sm:p-4 hover:bg-[#FAF7F2] transition-colors flex flex-col md:grid md:grid-cols-12 md:items-center gap-3 text-xs"
             >
               {/* 1. Resume Claim */}
               <div className="col-span-4 flex items-center justify-between md:justify-start gap-2">
-                <span className="font-semibold text-foreground text-sm">
+                <span className="font-bold text-[#241914] text-sm">
                   {claim.displayName || claim.canonicalSkill}
                 </span>
-                <span className="text-[11px] px-2 py-0.5 rounded border border-border/80 bg-muted/30 text-muted-foreground">
+                <span className="text-[11px] font-medium px-2 py-0.5 rounded-md border border-[#E7DCD1] bg-[#FAF7F2] text-[#756B64]">
                   Resume Claim
                 </span>
               </div>
 
               {/* Arrow on desktop */}
-              <div className="hidden md:flex col-span-1 justify-center text-muted-foreground/60">
+              <div className="hidden md:flex col-span-1 justify-center text-[#A95F3D]">
                 <ArrowRight className="size-3.5" />
               </div>
 
@@ -104,22 +104,22 @@ export function ClaimsVsEvidence({ claims, verifications }: ClaimsVsEvidenceProp
               <div className="col-span-4 flex items-center gap-2">
                 {evidenceCount > 0 ? (
                   <div className="flex flex-wrap items-center gap-1.5">
-                    <span className="font-medium text-foreground font-mono">
+                    <span className="font-bold text-[#241914] font-mono">
                       {evidenceCount} evidence {evidenceCount === 1 ? "item" : "items"}
                     </span>
-                    <span className="text-muted-foreground">
+                    <span className="text-[#756B64]">
                       across {repoCount} {repoCount === 1 ? "repo" : "repos"}
                     </span>
                   </div>
                 ) : (
-                  <span className="text-muted-foreground font-mono">
+                  <span className="text-[#756B64] font-mono italic">
                     0 public evidence items
                   </span>
                 )}
               </div>
 
               {/* Arrow on desktop */}
-              <div className="hidden md:flex col-span-1 justify-center text-muted-foreground/60">
+              <div className="hidden md:flex col-span-1 justify-center text-[#A95F3D]">
                 <ArrowRight className="size-3.5" />
               </div>
 
@@ -127,13 +127,13 @@ export function ClaimsVsEvidence({ claims, verifications }: ClaimsVsEvidenceProp
               <div className="col-span-2 flex items-center justify-between md:justify-end gap-2">
                 <Badge
                   variant="outline"
-                  className={`text-[11px] font-mono px-2 py-0.5 gap-1 shrink-0 ${badgeMeta.className}`}
+                  className={`text-[11px] font-mono font-bold px-2 py-0.5 gap-1 shrink-0 rounded-md ${badgeMeta.className}`}
                 >
                   <StatusIcon className="size-3" />
                   {badgeMeta.label}
                 </Badge>
                 {matched && (
-                  <span className="text-xs font-mono font-semibold text-muted-foreground">
+                  <span className="text-xs font-mono font-bold text-[#241914]">
                     {matched.evidenceScore}/100
                   </span>
                 )}

@@ -26,62 +26,62 @@ const EVIDENCE_TYPE_META: Record<
   dependency: {
     label: "Dependencies",
     icon: Box,
-    color: "border-blue-400/30 bg-blue-400/10 text-blue-300",
+    color: "border-[#A95F3D]/30 bg-[#F4E2D3] text-[#A95F3D]",
   },
   framework: {
     label: "Frameworks",
     icon: Layers,
-    color: "border-indigo-400/30 bg-indigo-400/10 text-indigo-300",
+    color: "border-[#6D351F]/30 bg-[#F7EFE7] text-[#6D351F]",
   },
   repository_language: {
     label: "Languages",
     icon: FileCode2,
-    color: "border-sky-400/30 bg-sky-400/10 text-sky-300",
+    color: "border-[#241914]/20 bg-[#FAF7F2] text-[#241914]",
   },
   dockerfile: {
     label: "Dockerfiles",
     icon: Server,
-    color: "border-cyan-400/30 bg-cyan-400/10 text-cyan-300",
+    color: "border-[#2E8B57]/30 bg-[#E3F3E8] text-[#2E8B57]",
   },
   docker_compose: {
     label: "Docker Compose",
     icon: Server,
-    color: "border-cyan-400/30 bg-cyan-400/10 text-cyan-300",
+    color: "border-[#2E8B57]/30 bg-[#E3F3E8] text-[#2E8B57]",
   },
   kubernetes_manifest: {
     label: "Kubernetes",
     icon: Server,
-    color: "border-teal-400/30 bg-teal-400/10 text-teal-300",
+    color: "border-[#2E8B57]/30 bg-[#E3F3E8] text-[#2E8B57]",
   },
   cloud_configuration: {
-    label: "Cloud / AWS",
+    label: "Cloud Config",
     icon: Server,
-    color: "border-amber-400/30 bg-amber-400/10 text-amber-300",
+    color: "border-[#D99125]/30 bg-[#FFF0D7] text-[#D99125]",
   },
   ci_cd: {
     label: "CI/CD Workflows",
     icon: Workflow,
-    color: "border-emerald-400/30 bg-emerald-400/10 text-emerald-300",
+    color: "border-[#2E8B57]/30 bg-[#E3F3E8] text-[#2E8B57]",
   },
   test: {
     label: "Test Suites",
     icon: TestTube2,
-    color: "border-green-400/30 bg-green-400/10 text-green-300",
+    color: "border-[#2E8B57]/30 bg-[#E3F3E8] text-[#2E8B57]",
   },
   commit_recency: {
     label: "Commits & Activity",
     icon: GitCommit,
-    color: "border-orange-400/30 bg-orange-400/10 text-orange-300",
+    color: "border-[#A95F3D]/30 bg-[#F4E2D3] text-[#A95F3D]",
   },
   package_manifest: {
     label: "Package Manifests",
     icon: Layers,
-    color: "border-purple-400/30 bg-purple-400/10 text-purple-300",
+    color: "border-[#6D351F]/30 bg-[#F7EFE7] text-[#6D351F]",
   },
   readme: {
-    label: "Documentation (README)",
+    label: "Documentation",
     icon: FileCode2,
-    color: "border-slate-400/30 bg-slate-400/10 text-slate-300",
+    color: "border-[#E7DCD1] bg-white text-[#756B64]",
   },
 };
 
@@ -101,30 +101,30 @@ export function EvidenceSourceSummary({ evidence, repositoryCount }: EvidenceSou
   ][];
 
   return (
-    <section aria-label="Evidence Sources" className="rounded-xl border border-border/80 bg-card/60 p-6 space-y-4">
-      <div className="flex items-center justify-between border-b border-border/60 pb-3">
-        <div className="space-y-0.5">
+    <section aria-label="Evidence Sources" className="rounded-2xl border border-[#E7DCD1] bg-white p-6 sm:p-7 shadow-xs space-y-5">
+      <div className="flex items-center justify-between border-b border-[#E7DCD1] pb-4">
+        <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <Network className="size-4 text-emerald-400" />
-            <h2 className="text-sm font-semibold text-foreground uppercase tracking-wider">
+            <Network className="size-4 text-[#A95F3D]" />
+            <h2 className="text-xs font-bold text-[#241914] uppercase tracking-wider">
               Evidence Sources Breakdown
             </h2>
           </div>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs text-[#756B64]">
             Distribution of {evidence.length} factual evidence items across {repositoryCount} public repositories.
           </p>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
         {/* Repositories Root Card */}
-        <div className="flex items-center gap-3 p-3 rounded-lg border border-border/70 bg-muted/20">
-          <div className="p-2 rounded-md bg-muted/50 border border-border/50 text-muted-foreground">
+        <div className="flex items-center gap-3 p-3.5 rounded-xl border border-[#E7DCD1] bg-[#FAF7F2]">
+          <div className="p-2 rounded-lg bg-[#F4E2D3] border border-[#E8C5B0] text-[#A95F3D]">
             <FolderGit2 className="size-4" />
           </div>
           <div>
-            <p className="text-xs text-muted-foreground font-medium">Repositories</p>
-            <p className="text-lg font-bold font-mono text-foreground">{repositoryCount}</p>
+            <p className="text-xs text-[#756B64] font-medium">Repositories</p>
+            <p className="text-xl font-extrabold font-mono text-[#241914]">{repositoryCount}</p>
           </div>
         </div>
 
@@ -133,23 +133,23 @@ export function EvidenceSourceSummary({ evidence, repositoryCount }: EvidenceSou
           const meta = EVIDENCE_TYPE_META[typeKey] ?? {
             label: typeKey,
             icon: FileCode2,
-            color: "border-border bg-muted/40 text-muted-foreground",
+            color: "border-[#E7DCD1] bg-white text-[#756B64]",
           };
           const Icon = meta.icon;
 
           return (
             <div
               key={typeKey}
-              className="flex items-center gap-3 p-3 rounded-lg border border-border/70 bg-card/80"
+              className="flex items-center gap-3 p-3.5 rounded-xl border border-[#E7DCD1] bg-white shadow-2xs hover:border-[#A95F3D]/50 transition-colors"
             >
-              <div className={`p-2 rounded-md border ${meta.color}`}>
+              <div className={`p-2 rounded-lg border ${meta.color}`}>
                 <Icon className="size-4" />
               </div>
-              <div>
-                <p className="text-xs text-muted-foreground font-medium truncate max-w-[120px]">
+              <div className="min-w-0">
+                <p className="text-xs text-[#756B64] font-medium truncate max-w-[120px]">
                   {meta.label}
                 </p>
-                <p className="text-lg font-bold font-mono text-foreground">{count}</p>
+                <p className="text-xl font-extrabold font-mono text-[#241914]">{count}</p>
               </div>
             </div>
           );

@@ -13,24 +13,24 @@ interface SkillMatrixProps {
 function StatusBadge({ status }: { status: SkillStatus }) {
   if (status === "PROVEN") {
     return (
-      <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">
-        <CheckCircle2 className="size-3 text-emerald-400" />
-        PROVEN
+      <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-bold uppercase tracking-wider bg-[#E3F3E8] text-[#2E8B57] border border-[#2E8B57]/30">
+        <CheckCircle2 className="size-3 text-[#2E8B57]" />
+        VERIFIED
       </span>
     );
   }
   if (status === "PARTIAL") {
     return (
-      <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-amber-500/15 text-amber-300 border border-amber-500/30">
-        <CircleAlert className="size-3 text-amber-400" />
+      <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-bold uppercase tracking-wider bg-[#FFF0D7] text-[#D99125] border border-[#D99125]/30">
+        <CircleAlert className="size-3 text-[#D99125]" />
         PARTIAL
       </span>
     );
   }
   return (
-    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-secondary text-zinc-300 border border-border">
-      <CircleDashed className="size-3 text-zinc-400" />
-      CLAIMED ONLY
+    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg text-[11px] font-bold uppercase tracking-wider bg-[#FAF7F2] text-[#756B64] border border-[#E7DCD1]">
+      <CircleDashed className="size-3 text-[#756B64]" />
+      INSUFFICIENT
     </span>
   );
 }
@@ -38,37 +38,37 @@ function StatusBadge({ status }: { status: SkillStatus }) {
 export function SkillMatrix({ skills, selectedSkill, onSelectSkill }: SkillMatrixProps) {
   if (skills.length === 0) {
     return (
-      <div className="p-8 text-center rounded-xl border border-dashed border-border/80 bg-card/40 text-muted-foreground text-xs">
+      <div className="p-8 text-center rounded-2xl border border-dashed border-[#E7DCD1] bg-white text-[#756B64] text-xs">
         No skills evaluated in the current session.
       </div>
     );
   }
 
   return (
-    <div className="rounded-xl border border-border/80 bg-card/60 overflow-hidden">
-      <div className="p-4 border-b border-border/60 flex items-center justify-between">
+    <div className="rounded-2xl border border-[#E7DCD1] bg-white shadow-xs overflow-hidden">
+      <div className="p-4 sm:p-5 border-b border-[#E7DCD1] flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Layers className="size-4 text-emerald-400" />
-          <h3 className="text-sm font-bold text-foreground">Skill Proof Matrix</h3>
+          <Layers className="size-4 text-[#A95F3D]" />
+          <h3 className="text-sm font-bold text-[#241914]">Skill Proof Matrix</h3>
         </div>
-        <span className="text-xs text-muted-foreground">
+        <span className="text-xs text-[#756B64]">
           {skills.length} claimed skills · Click to inspect evidence
         </span>
       </div>
 
       <div className="overflow-x-auto">
-        <table className="w-full text-left text-xs">
-          <thead className="bg-muted/40 border-b border-border/60 text-muted-foreground text-[11px] uppercase tracking-wider font-semibold">
+        <table className="w-full text-left text-xs min-w-[580px] sm:min-w-0">
+          <thead className="bg-[#FAF7F2] border-b border-[#E7DCD1] text-[#756B64] text-[11px] uppercase tracking-wider font-bold">
             <tr>
               <th className="py-3 px-4">Skill</th>
               <th className="py-3 px-4">Status</th>
-              <th className="py-3 px-4">Deterministic Score</th>
+              <th className="py-3 px-4">Score</th>
               <th className="py-3 px-4">Evidence</th>
               <th className="py-3 px-4">Repositories</th>
-              <th className="py-3 px-4 text-right">Action</th>
+              <th className="py-3 px-4 text-right">Inspect</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-border/40">
+          <tbody className="divide-y divide-[#E7DCD1]">
             {skills.map((item) => {
               const isSelected = selectedSkill?.skill === item.skill;
               return (
@@ -77,52 +77,50 @@ export function SkillMatrix({ skills, selectedSkill, onSelectSkill }: SkillMatri
                   onClick={() => onSelectSkill(item)}
                   className={`cursor-pointer transition-colors ${
                     isSelected
-                      ? "bg-emerald-500/[0.08]"
-                      : "hover:bg-muted/40"
+                      ? "bg-[#F4E2D3]/40"
+                      : "hover:bg-[#FAF7F2]"
                   }`}
                 >
-                  <td className="py-3 px-4 font-semibold text-foreground">
+                  <td className="py-3.5 px-4 font-bold text-[#241914]">
                     <div className="flex items-center gap-2">
                       {item.hasBeforeAfterHistory && (
-                        <span className="size-2 rounded-full bg-emerald-400" title="Re-verified via task submission" />
+                        <span className="size-2 rounded-full bg-[#2E8B57]" title="Re-verified via task submission" />
                       )}
                       <span>{item.skill}</span>
                     </div>
                   </td>
-                  <td className="py-3 px-4">
+                  <td className="py-3.5 px-4">
                     <StatusBadge status={item.status} />
                   </td>
-                  <td className="py-3 px-4">
+                  <td className="py-3.5 px-4">
                     <div className="flex items-center gap-2 max-w-[140px]">
-                      <div className="flex-1 h-1.5 rounded-full bg-muted overflow-hidden">
+                      <div className="flex-1 h-2 rounded-full bg-[#FAF7F2] border border-[#E7DCD1] overflow-hidden">
                         <div
                           className={`h-full rounded-full ${
                             item.status === "PROVEN"
-                              ? "bg-emerald-400"
+                              ? "bg-[#2E8B57]"
                               : item.status === "PARTIAL"
-                              ? "bg-amber-400"
-                              : "bg-red-400"
+                              ? "bg-[#D99125]"
+                              : "bg-[#E7DCD1]"
                           }`}
-                          style={{ width: `${Math.min(100, Math.max(5, item.evidenceScore))}%` }}
+                          style={{ width: `${item.evidenceScore}%` }}
                         />
                       </div>
-                      <span className="font-mono text-muted-foreground text-[11px]">
-                        {item.evidenceScore}/100
+                      <span className="font-mono text-xs font-bold text-[#241914] w-8 text-right">
+                        {item.evidenceScore}
                       </span>
                     </div>
                   </td>
-                  <td className="py-3 px-4 text-muted-foreground">
-                    <div className="flex items-center gap-1.5">
-                      <FileCode2 className="size-3.5 text-muted-foreground" />
-                      <span>{item.evidenceCount} {item.evidenceCount === 1 ? "item" : "items"}</span>
-                    </div>
+                  <td className="py-3.5 px-4 text-[#756B64] font-medium">
+                    {item.evidenceCount} {item.evidenceCount === 1 ? "signal" : "signals"}
                   </td>
-                  <td className="py-3 px-4 text-muted-foreground">
-                    <span>{item.repositoryCount} {item.repositoryCount === 1 ? "repo" : "repos"}</span>
+                  <td className="py-3.5 px-4 text-[#756B64] font-medium">
+                    {item.repositoryCount} {item.repositoryCount === 1 ? "repo" : "repos"}
                   </td>
-                  <td className="py-3 px-4 text-right">
-                    <span className={`text-[11px] font-medium ${isSelected ? "text-emerald-400" : "text-muted-foreground hover:text-foreground"}`}>
-                      {isSelected ? "Inspecting" : "Inspect →"}
+                  <td className="py-3.5 px-4 text-right">
+                    <span className="text-[11px] font-bold text-[#A95F3D] hover:underline inline-flex items-center gap-1">
+                      <FileCode2 className="size-3" />
+                      Details
                     </span>
                   </td>
                 </tr>

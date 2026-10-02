@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "SkillProof — Proof over claims",
-  description: "Evidence-based technical skill verification.",
+  title: "SkillProof — Don't just claim skills. Prove them.",
+  description: "Evidence-based technical skill verification from authentic GitHub code.",
 };
 
 export const viewport: Viewport = {
@@ -18,8 +18,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <body className="min-h-screen bg-background font-sans text-foreground antialiased">
+    <html lang="en">
+      <body className="min-h-screen bg-background font-sans text-foreground antialiased selection:bg-[#F4E2D3] selection:text-[#6D351F]">
         {children}
       </body>
     </html>

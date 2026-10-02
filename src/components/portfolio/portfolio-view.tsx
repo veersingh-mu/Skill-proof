@@ -61,7 +61,7 @@ export function PortfolioView() {
 
   if (!portfolio) {
     return (
-      <div className="py-20 text-center text-xs text-muted-foreground">
+      <div className="py-20 text-center text-xs text-[#756B64]">
         Loading SkillProof Portfolio...
       </div>
     );
@@ -72,37 +72,39 @@ export function PortfolioView() {
   return (
     <div className="space-y-8 pb-16 max-w-6xl mx-auto">
       {/* 1. Header & Candidate Summary */}
-      <div className="rounded-xl border border-border/80 bg-gradient-to-b from-card/80 to-card/40 p-6 space-y-4">
+      <div className="rounded-2xl border border-[#E7DCD1] bg-white p-6 sm:p-8 space-y-5 shadow-xs">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="space-y-1.5">
-            <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-emerald-400">
-              <ShieldCheck className="size-4" />
-              Verified Evidence Portfolio
+          <div className="space-y-2">
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#A95F3D]">
+              <div className="flex size-6 items-center justify-center rounded-lg bg-[#F4E2D3] text-[#A95F3D]">
+                <ShieldCheck className="size-3.5" />
+              </div>
+              Verified Technical Portfolio
             </div>
-            <h1 className="text-2xl font-bold text-foreground tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-[#241914] tracking-tight">
               {candidate.name}
             </h1>
-            <p className="text-xs text-muted-foreground flex flex-wrap items-center gap-2">
+            <p className="text-xs text-[#756B64] flex flex-wrap items-center gap-2">
               {candidate.githubUsername && (
                 <>
-                  <span className="font-mono text-foreground/80">github.com/{candidate.githubUsername}</span>
-                  <span>·</span>
+                  <span className="font-mono text-[#241914] font-bold">github.com/{candidate.githubUsername}</span>
+                  <span className="text-[#E7DCD1]">·</span>
                 </>
               )}
               <span>Observable technical evidence directly mined from public GitHub repositories.</span>
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2 shrink-0 print:hidden w-full sm:w-auto">
+          <div className="flex flex-wrap items-center gap-2.5 shrink-0 print:hidden w-full sm:w-auto">
             <Button
               asChild
               size="sm"
               variant="outline"
-              className="text-xs h-9 min-h-[38px] border-border hover:bg-muted flex-1 sm:flex-none"
+              className="text-xs font-semibold h-10 min-h-[40px] px-4 border-[#E7DCD1] text-[#241914] hover:bg-[#FAF7F2] rounded-xl flex-1 sm:flex-none"
             >
               <Link href="/portfolio/report">
-                <Share2 className="size-3.5 mr-1.5" />
-                Presentation Report
+                <Share2 className="size-3.5 mr-1.5 text-[#A95F3D]" />
+                Shareable Report
               </Link>
             </Button>
 
@@ -111,16 +113,16 @@ export function PortfolioView() {
               size="sm"
               variant="outline"
               onClick={() => window.print()}
-              className="text-xs h-9 min-h-[38px] border-border hover:bg-muted flex-1 sm:flex-none"
+              className="text-xs font-semibold h-10 min-h-[40px] px-4 border-[#E7DCD1] text-[#241914] hover:bg-[#FAF7F2] rounded-xl flex-1 sm:flex-none"
             >
-              <Printer className="size-3.5 mr-1.5" />
+              <Printer className="size-3.5 mr-1.5 text-[#756B64]" />
               Print / Save PDF
             </Button>
 
             <Button
               asChild
               size="sm"
-              className="w-full sm:w-auto bg-emerald-500 text-zinc-950 hover:bg-emerald-400 font-semibold text-xs h-9 min-h-[38px]"
+              className="w-full sm:w-auto bg-[#A95F3D] text-white hover:bg-[#8E4F32] font-bold text-xs h-10 min-h-[40px] px-5 rounded-xl shadow-xs"
             >
               <Link href="/evidence">
                 <Network className="size-3.5 mr-1.5" />
@@ -131,81 +133,81 @@ export function PortfolioView() {
         </div>
 
         {/* 2. Coverage Stat Cards */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5 pt-2 border-t border-border/60">
-          <div className="p-3 rounded-lg bg-background/50 border border-border/40 text-center">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground block">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5 pt-3 border-t border-[#E7DCD1]">
+          <div className="p-3 rounded-xl bg-[#FAF7F2] border border-[#E7DCD1] text-center">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-[#756B64] block">
               Claimed
             </span>
-            <span className="text-lg font-bold text-foreground font-mono">
+            <span className="text-xl font-extrabold text-[#241914] font-mono">
               {summary.claimedSkillsCount}
             </span>
           </div>
 
-          <div className="p-3 rounded-lg bg-emerald-500/[0.06] border border-emerald-500/20 text-center">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-400 block">
-              Proven
+          <div className="p-3 rounded-xl bg-[#E3F3E8] border border-[#2E8B57]/30 text-center">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-[#2E8B57] block">
+              Verified
             </span>
-            <span className="text-lg font-bold text-emerald-300 font-mono">
+            <span className="text-xl font-extrabold text-[#2E8B57] font-mono">
               {summary.provenCount}
             </span>
           </div>
 
-          <div className="p-3 rounded-lg bg-amber-500/[0.06] border border-amber-500/20 text-center">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-amber-400 block">
+          <div className="p-3 rounded-xl bg-[#FFF0D7] border border-[#D99125]/30 text-center">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-[#D99125] block">
               Partial
             </span>
-            <span className="text-lg font-bold text-amber-300 font-mono">
+            <span className="text-xl font-extrabold text-[#D99125] font-mono">
               {summary.partialCount}
             </span>
           </div>
 
-          <div className="p-3 rounded-lg bg-secondary/40 border border-border text-center">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 block">
-              Claimed Only
+          <div className="p-3 rounded-xl bg-[#FAF7F2] border border-[#E7DCD1] text-center">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-[#756B64] block">
+              Insufficient
             </span>
-            <span className="text-lg font-bold text-zinc-200 font-mono">
+            <span className="text-xl font-extrabold text-[#756B64] font-mono">
               {summary.insufficientCount}
             </span>
           </div>
 
-          <div className="p-3 rounded-lg bg-background/50 border border-border/40 text-center">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground block">
+          <div className="p-3 rounded-xl bg-[#FAF7F2] border border-[#E7DCD1] text-center">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-[#756B64] block">
               Repositories
             </span>
-            <span className="text-lg font-bold text-foreground font-mono">
+            <span className="text-xl font-extrabold text-[#241914] font-mono">
               {summary.repositoryCount}
             </span>
           </div>
 
-          <div className="p-3 rounded-lg bg-background/50 border border-border/40 text-center">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground block">
+          <div className="p-3 rounded-xl bg-[#FAF7F2] border border-[#E7DCD1] text-center">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-[#756B64] block">
               Evidence Items
             </span>
-            <span className="text-lg font-bold text-foreground font-mono">
+            <span className="text-xl font-extrabold text-[#241914] font-mono">
               {summary.evidenceCount}
             </span>
           </div>
 
-          <div className="p-3 rounded-lg bg-background/50 border border-border/40 text-center col-span-2 sm:col-span-1">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground block">
-              Average Score
+          <div className="p-3 rounded-xl bg-[#FAF7F2] border border-[#E7DCD1] text-center col-span-2 sm:col-span-1">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-[#756B64] block">
+              Avg Score
             </span>
-            <span className="text-lg font-bold text-foreground font-mono">
-              {summary.averageScore}/100
+            <span className="text-xl font-extrabold text-[#A95F3D] font-mono">
+              {summary.averageScore}
             </span>
           </div>
         </div>
       </div>
 
       {/* 3. Navigation Tabs */}
-      <div className="flex flex-wrap items-center gap-2 border-b border-border/60 pb-1">
+      <div className="flex flex-wrap items-center gap-2 border-b border-[#E7DCD1] pb-1">
         <button
           type="button"
           onClick={() => setActiveTab("matrix")}
-          className={`px-3.5 py-2 text-xs font-semibold rounded-lg transition-colors ${
+          className={`px-4 py-2 text-xs font-bold rounded-xl transition-all cursor-pointer ${
             activeTab === "matrix"
-              ? "bg-emerald-500/15 text-emerald-300 border border-emerald-500/30"
-              : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+              ? "bg-[#241914] text-white shadow-xs"
+              : "text-[#756B64] hover:text-[#241914] hover:bg-white"
           }`}
         >
           Skill Proof Matrix ({skills.length})
@@ -214,25 +216,25 @@ export function PortfolioView() {
         <button
           type="button"
           onClick={() => setActiveTab("history")}
-          className={`px-3.5 py-2 text-xs font-semibold rounded-lg transition-colors flex items-center gap-1.5 ${
+          className={`px-4 py-2 text-xs font-bold rounded-xl transition-all flex items-center gap-1.5 cursor-pointer ${
             activeTab === "history"
-              ? "bg-emerald-500/15 text-emerald-300 border border-emerald-500/30"
-              : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+              ? "bg-[#241914] text-white shadow-xs"
+              : "text-[#756B64] hover:text-[#241914] hover:bg-white"
           }`}
         >
           <span>Proof History</span>
           {verificationHistory.length > 0 && (
-            <span className="size-1.5 rounded-full bg-emerald-400" />
+            <span className="size-2 rounded-full bg-[#2E8B57]" />
           )}
         </button>
 
         <button
           type="button"
           onClick={() => setActiveTab("tasks")}
-          className={`px-3.5 py-2 text-xs font-semibold rounded-lg transition-colors ${
+          className={`px-4 py-2 text-xs font-bold rounded-xl transition-all cursor-pointer ${
             activeTab === "tasks"
-              ? "bg-emerald-500/15 text-emerald-300 border border-emerald-500/30"
-              : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+              ? "bg-[#241914] text-white shadow-xs"
+              : "text-[#756B64] hover:text-[#241914] hover:bg-white"
           }`}
         >
           Completed Tasks ({tasks.length})
@@ -241,26 +243,36 @@ export function PortfolioView() {
         <button
           type="button"
           onClick={() => setActiveTab("gaps")}
-          className={`px-3.5 py-2 text-xs font-semibold rounded-lg transition-colors ${
+          className={`px-4 py-2 text-xs font-bold rounded-xl transition-all cursor-pointer ${
             activeTab === "gaps"
-              ? "bg-emerald-500/15 text-emerald-300 border border-emerald-500/30"
-              : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+              ? "bg-[#241914] text-white shadow-xs"
+              : "text-[#756B64] hover:text-[#241914] hover:bg-white"
           }`}
         >
           Remaining Gaps ({skillGaps.length})
         </button>
       </div>
 
-      {/* 4. Tab Contents */}
+      {/* 4. Tab Content */}
       {activeTab === "matrix" && (
-        <div className="space-y-6">
-          <SkillMatrix
-            skills={skills}
-            selectedSkill={selectedSkill}
-            onSelectSkill={(s) => setUserSelectedSkill(s)}
-          />
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          <div className="lg:col-span-7">
+            <SkillMatrix
+              skills={skills}
+              selectedSkill={selectedSkill}
+              onSelectSkill={(s) => setUserSelectedSkill(s)}
+            />
+          </div>
 
-          <SkillDetailPanel skill={selectedSkill} />
+          <div className="lg:col-span-5">
+            {selectedSkill ? (
+              <SkillDetailPanel skill={selectedSkill} />
+            ) : (
+              <div className="p-8 rounded-2xl border border-dashed border-[#E7DCD1] bg-white text-center text-xs text-[#756B64]">
+                Select a skill from the matrix to inspect its evidence trail.
+              </div>
+            )}
+          </div>
         </div>
       )}
 
@@ -276,8 +288,12 @@ export function PortfolioView() {
         <RemainingGaps gaps={skillGaps} />
       )}
 
-      {/* 5. Job Match Context (always visible if available) */}
-      <JobMatchContext jobMatch={jobMatch} />
+      {/* Optional Job Match Context */}
+      {jobMatch && (
+        <div className="pt-4 border-t border-[#E7DCD1]">
+          <JobMatchContext jobMatch={jobMatch} />
+        </div>
+      )}
     </div>
   );
 }

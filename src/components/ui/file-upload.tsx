@@ -19,7 +19,7 @@ export function FileUpload({
   const id = useId();
   return (
     <div>
-      <div className="relative rounded-xl border border-dashed border-border/80 bg-muted/20 p-4 sm:p-5 transition-colors hover:border-indigo-400/50 hover:bg-muted/30">
+      <div className="relative rounded-2xl border-2 border-dashed border-[#E7DCD1] bg-[#FAF7F2] p-5 sm:p-6 transition-all duration-200 hover:border-[#A95F3D] hover:bg-[#F4E2D3]/20">
         <input
           id={id}
           type="file"
@@ -31,17 +31,17 @@ export function FileUpload({
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <label
             htmlFor={file ? undefined : id}
-            className={`flex min-w-0 items-center gap-3 ${!file && !disabled ? "cursor-pointer" : ""}`}
+            className={`flex min-w-0 items-center gap-3.5 ${!file && !disabled ? "cursor-pointer" : ""}`}
           >
-            <span className="grid size-11 shrink-0 place-items-center rounded-xl border border-indigo-500/20 bg-indigo-500/10 text-indigo-400">
-              <FileText className="size-5" />
+            <span className="grid size-12 shrink-0 place-items-center rounded-xl border border-[#E8C5B0] bg-[#F4E2D3] text-[#A95F3D]">
+              <FileText className="size-6" />
             </span>
             <span className="min-w-0 flex-1">
-              <span className="block truncate text-sm font-semibold text-foreground">
-                {file?.name ?? "Tap to select a resume PDF"}
+              <span className="block truncate text-sm font-bold text-[#241914]">
+                {file?.name ?? "Upload or drag & drop resume PDF"}
               </span>
-              <span className="mt-0.5 block text-xs text-muted-foreground">
-                PDF only · Maximum size 5 MB
+              <span className="mt-0.5 block text-xs text-[#756B64]">
+                PDF format · Maximum size 5 MB
               </span>
             </span>
           </label>
@@ -53,7 +53,7 @@ export function FileUpload({
                 size="sm"
                 disabled={disabled}
                 onClick={onRemove}
-                className="text-xs h-10 min-h-[44px] px-3.5 text-muted-foreground hover:text-red-300 hover:bg-red-500/10"
+                className="text-xs h-10 min-h-[44px] px-3.5 text-[#C94A4A] hover:text-[#C94A4A] hover:bg-[#C94A4A]/10 rounded-xl"
               >
                 <Trash2 className="size-4 mr-1.5" /> Remove
               </Button>
@@ -63,17 +63,17 @@ export function FileUpload({
                 size="sm"
                 disabled={disabled}
                 asChild
-                className="text-xs h-10 min-h-[44px] px-4 cursor-pointer border-indigo-500/30 text-indigo-300 hover:bg-indigo-500/10"
+                className="text-xs font-semibold h-10 min-h-[44px] px-4 cursor-pointer border-[#A95F3D]/40 text-[#A95F3D] hover:bg-[#F4E2D3]/60 rounded-xl"
               >
                 <label htmlFor={id}>
-                  <Upload className="size-4 mr-1.5" /> Browse PDF
+                  <Upload className="size-4 mr-1.5" /> Browse File
                 </label>
               </Button>
             )}
           </div>
         </div>
       </div>
-      {error && <p className="mt-2 text-xs text-red-300">{error}</p>}
+      {error && <p className="mt-2 text-xs font-medium text-[#C94A4A]">{error}</p>}
     </div>
   );
 }
