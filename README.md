@@ -12,6 +12,7 @@ SkillProof is an evidence-based skill verification platform that turns static re
 ## 📌 Repository Information & Hackathon Details
 
 * **Repository Name**: `T9-Skill proof`
+* **Live Demo (Vercel)**: [https://skillproof-murex-two.vercel.app](https://skillproof-murex-two.vercel.app)
 * **GitHub Repository**: [https://github.com/veersingh-mu/Skill-proof](https://github.com/veersingh-mu/Skill-proof)
 * **Required Hackathon Collaborators**:
   - **TSEC ACM**: [https://github.com/acmco](https://github.com/acmco)
