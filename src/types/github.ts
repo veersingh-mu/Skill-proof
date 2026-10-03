@@ -71,12 +71,20 @@ export type GitHubEvidenceType =
   | "test"
   | "commit_recency";
 
+import type { BehanceEvidenceType, EvidenceProvider } from "./behance";
+
+/**
+ * Unified evidence type across all providers.
+ * GitHub types are the original set; Behance types extend the union.
+ */
+export type UnifiedEvidenceType = GitHubEvidenceType | BehanceEvidenceType;
+
 export interface GitHubEvidenceItem {
   id: string;
   candidateId?: string;
   repositoryId?: string;
   repositoryName?: string;
-  type: GitHubEvidenceType;
+  type: UnifiedEvidenceType;
   skillHints: string[];
   filePath?: string;
   commitSha?: string;
@@ -84,6 +92,10 @@ export interface GitHubEvidenceItem {
   extractedFact: string;
   collectedAt: string;
   analyzerVersion: string;
+  /** Evidence provider — defaults to "github" when absent for backward compatibility */
+  provider?: EvidenceProvider;
+  /** Provider-specific metadata (e.g. Behance projectId, media info) */
+  metadata?: Record<string, unknown>;
 }
 
 export type AnalysisRunStatus = "PENDING" | "RUNNING" | "COMPLETED" | "FAILED";

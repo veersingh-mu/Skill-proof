@@ -5,17 +5,23 @@ import { Handle, Position } from "@xyflow/react";
 import {
   AlertCircle,
   Box,
+  Brush,
   CheckCircle2,
   CircleAlert,
   CircleDashed,
   ExternalLink,
+  Eye,
   FileCode2,
   FolderGit2,
   GitCommit,
   Layers,
+  Palette,
   Server,
+  Sparkles,
   TestTube2,
+  Type,
   UserCheck,
+  Wand2,
   Workflow,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -110,22 +116,43 @@ export const SkillNode = memo(({ data }: { data: SkillNodeData }) => {
 });
 SkillNode.displayName = "SkillNode";
 
-// 4. REPOSITORY NODE
+// 4. REPOSITORY / PROJECT NODE
 export const RepositoryNode = memo(({ data }: { data: RepositoryNodeData }) => {
+  const isBehance = data.provider === "behance";
   return (
-    <div className="rounded-xl border border-border/80 bg-card/95 p-3.5 shadow-md backdrop-blur-sm min-w-[210px] text-left transition-all hover:border-border">
-      <Handle type="target" position={Position.Left} className="!bg-blue-400 !size-2.5" />
-      <div className="flex items-center gap-1.5 mb-1 text-muted-foreground">
-        <FolderGit2 className="size-3.5" />
-        <span className="text-[10px] font-semibold uppercase tracking-wider">GitHub Repo</span>
+    <div
+      className={`rounded-xl border ${
+        isBehance ? "border-purple-500/40 hover:border-purple-400" : "border-border/80 hover:border-border"
+      } bg-card/95 p-3.5 shadow-md backdrop-blur-sm min-w-[210px] text-left transition-all`}
+    >
+      <Handle
+        type="target"
+        position={Position.Left}
+        className={`!size-2.5 ${isBehance ? "!bg-purple-400" : "!bg-blue-400"}`}
+      />
+      <div className={`flex items-center gap-1.5 mb-1 ${isBehance ? "text-purple-300" : "text-muted-foreground"}`}>
+        {isBehance ? <Palette className="size-3.5 text-purple-400" /> : <FolderGit2 className="size-3.5" />}
+        <span className="text-[10px] font-semibold uppercase tracking-wider">
+          {isBehance ? "Behance Project" : "GitHub Repo"}
+        </span>
       </div>
       <h4 className="text-sm font-bold text-foreground font-mono truncate">{data.name}</h4>
       {data.language && (
-        <span className="inline-block mt-1 text-[10px] px-2 py-0.5 rounded bg-muted/60 text-muted-foreground font-mono">
+        <span
+          className={`inline-block mt-1 text-[10px] px-2 py-0.5 rounded font-mono ${
+            isBehance
+              ? "bg-purple-500/15 text-purple-300 border border-purple-500/25"
+              : "bg-muted/60 text-muted-foreground"
+          }`}
+        >
           {data.language}
         </span>
       )}
-      <Handle type="source" position={Position.Right} className="!bg-blue-400 !size-2.5" />
+      <Handle
+        type="source"
+        position={Position.Right}
+        className={`!size-2.5 ${isBehance ? "!bg-purple-400" : "!bg-blue-400"}`}
+      />
     </div>
   );
 });
@@ -139,6 +166,9 @@ export const EvidenceNode = memo(({ data }: { data: EvidenceNodeData }) => {
         return Box;
       case "framework":
       case "package_manifest":
+      case "behance_project":
+      case "behance_ui_design":
+      case "behance_packaging":
         return Layers;
       case "dockerfile":
       case "docker_compose":
@@ -151,28 +181,62 @@ export const EvidenceNode = memo(({ data }: { data: EvidenceNodeData }) => {
         return Workflow;
       case "commit_recency":
         return GitCommit;
+      case "behance_branding":
+      case "behance_motion":
+        return Sparkles;
+      case "behance_logo_design":
+      case "behance_tool_reference":
+        return Wand2;
+      case "behance_graphic_design":
+        return Palette;
+      case "behance_typography":
+        return Type;
+      case "behance_illustration":
+        return Brush;
+      case "behance_ux_design":
+      case "behance_project_category":
+        return Eye;
       default:
         return FileCode2;
     }
   };
 
   const Icon = getIcon(data.evidenceType);
+  const isBehance = data.provider === "behance";
 
   return (
-    <div className="rounded-xl border border-border/70 bg-card/95 p-3 shadow-sm backdrop-blur-sm min-w-[220px] max-w-[260px] text-left transition-all hover:border-emerald-400/40">
-      <Handle type="target" position={Position.Left} className="!bg-sky-400 !size-2.5" />
+    <div
+      className={`rounded-xl border ${
+        isBehance ? "border-purple-500/30 hover:border-purple-400/50" : "border-border/70 hover:border-emerald-400/40"
+      } bg-card/95 p-3 shadow-sm backdrop-blur-sm min-w-[220px] max-w-[260px] text-left transition-all`}
+    >
+      <Handle
+        type="target"
+        position={Position.Left}
+        className={`!size-2.5 ${isBehance ? "!bg-purple-400" : "!bg-sky-400"}`}
+      />
       <div className="flex items-center gap-1.5 mb-1.5">
-        <span className="p-1 rounded bg-muted/50 text-sky-300 border border-border/50">
+        <span
+          className={`p-1 rounded border ${
+            isBehance
+              ? "bg-purple-500/10 text-purple-300 border-purple-500/20"
+              : "bg-muted/50 text-sky-300 border-border/50"
+          }`}
+        >
           <Icon className="size-3" />
         </span>
         <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground truncate">
-          {data.evidenceType.replace(/_/g, " ")}
+          {data.evidenceType.replace(/behance_/g, "").replace(/_/g, " ")}
         </span>
       </div>
       <p className="text-[11px] text-foreground font-mono leading-relaxed line-clamp-2 bg-muted/20 p-1.5 rounded border border-border/40">
         {data.extractedFact}
       </p>
-      <Handle type="source" position={Position.Right} className="!bg-sky-400 !size-2.5" />
+      <Handle
+        type="source"
+        position={Position.Right}
+        className={`!size-2.5 ${isBehance ? "!bg-purple-400" : "!bg-sky-400"}`}
+      />
     </div>
   );
 });

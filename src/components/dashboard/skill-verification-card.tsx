@@ -3,24 +3,30 @@
 import { useState } from "react";
 import {
   Box,
+  Brush,
   CheckCircle2,
   ChevronDown,
   ChevronUp,
   CircleAlert,
   CircleDashed,
   ExternalLink,
+  Eye,
   FileCode2,
   FolderGit2,
   GitCommit,
   Layers,
+  Palette,
   Server,
+  Sparkles,
   TestTube2,
+  Type,
+  Wand2,
   Workflow,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { SkillVerificationResult } from "@/lib/evidence";
-import type { GitHubEvidenceType, SkillStatus } from "@/types";
+import type { SkillStatus } from "@/types";
 
 interface SkillVerificationCardProps {
   verification: SkillVerificationResult;
@@ -55,7 +61,7 @@ const STATUS_CONFIG: Record<
 };
 
 const EVIDENCE_TYPE_META: Record<
-  GitHubEvidenceType,
+  string,
   { label: string; icon: typeof FileCode2; color: string }
 > = {
   dependency: {
@@ -117,6 +123,67 @@ const EVIDENCE_TYPE_META: Record<
     label: "Documentation",
     icon: FileCode2,
     color: "border-[#E7DCD1] bg-white text-[#756B64]",
+  },
+  // Behance Creative Evidence Types
+  behance_project: {
+    label: "Behance Project",
+    icon: Layers,
+    color: "border-purple-400/30 bg-purple-50 text-purple-700",
+  },
+  behance_project_category: {
+    label: "Category",
+    icon: Eye,
+    color: "border-blue-400/30 bg-blue-50 text-blue-700",
+  },
+  behance_branding: {
+    label: "Branding",
+    icon: Sparkles,
+    color: "border-amber-400/30 bg-amber-50 text-amber-700",
+  },
+  behance_logo_design: {
+    label: "Logo Design",
+    icon: Wand2,
+    color: "border-emerald-400/30 bg-emerald-50 text-emerald-700",
+  },
+  behance_graphic_design: {
+    label: "Graphic Design",
+    icon: Palette,
+    color: "border-rose-400/30 bg-rose-50 text-rose-700",
+  },
+  behance_ui_design: {
+    label: "UI Design",
+    icon: Layers,
+    color: "border-cyan-400/30 bg-cyan-50 text-cyan-700",
+  },
+  behance_ux_design: {
+    label: "UX Design",
+    icon: Eye,
+    color: "border-indigo-400/30 bg-indigo-50 text-indigo-700",
+  },
+  behance_typography: {
+    label: "Typography",
+    icon: Type,
+    color: "border-violet-400/30 bg-violet-50 text-violet-700",
+  },
+  behance_illustration: {
+    label: "Illustration",
+    icon: Brush,
+    color: "border-pink-400/30 bg-pink-50 text-pink-700",
+  },
+  behance_packaging: {
+    label: "Packaging",
+    icon: Layers,
+    color: "border-orange-400/30 bg-orange-50 text-orange-700",
+  },
+  behance_motion: {
+    label: "Motion",
+    icon: Sparkles,
+    color: "border-teal-400/30 bg-teal-50 text-teal-700",
+  },
+  behance_tool_reference: {
+    label: "Design Tool",
+    icon: Wand2,
+    color: "border-slate-400/30 bg-slate-50 text-slate-700",
   },
 };
 
@@ -273,7 +340,7 @@ export function SkillVerificationCard({
                           rel="noreferrer"
                           className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#A95F3D] hover:text-[#8E4F32] hover:underline transition-colors shrink-0"
                         >
-                          View on GitHub
+                          View on {item.provider === "behance" ? "Behance" : "GitHub"}
                           <ExternalLink className="size-3" />
                         </a>
                       )}

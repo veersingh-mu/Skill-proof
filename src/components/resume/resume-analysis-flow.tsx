@@ -9,9 +9,11 @@ import {
   GitBranch,
   LayoutDashboard,
   LoaderCircle,
+  Palette,
   Plus,
   RefreshCw,
   ShieldAlert,
+  Sparkles,
   X,
 } from "lucide-react";
 import { FileUpload } from "@/components/ui/file-upload";
@@ -22,9 +24,12 @@ import { SKILL_NAMES } from "@/lib/resume/taxonomy";
 import { normalizeSkill } from "@/lib/resume/normalize";
 import type { ResumeClaim } from "@/types";
 import type { GitHubAnalysisResult } from "@/types/github";
+import type { BehanceAnalysisResult } from "@/types/behance";
 import { GitHubEvidenceView } from "@/components/github/github-evidence-view";
+import { BehanceEvidenceView } from "@/components/behance/behance-evidence-view";
 import { EvidenceVerificationView } from "@/components/evidence/evidence-verification-view";
 import { evaluateEvidence, saveVerificationSession } from "@/lib/evidence";
+import { diffBehanceEvidence, type BehanceEvidenceDiff } from "@/lib/behance/diff";
 
 type AnalysisState = "IDLE" | "PARSING" | "EXTRACTING" | "REVIEW" | "READY" | "ERROR";
 type AnalysisResponse = {
@@ -51,6 +56,16 @@ const GITHUB_PROGRESS_STAGES = [
   "Completed.",
 ];
 
+const BEHANCE_PROGRESS_STAGES = [
+  "Validating Behance profile URL...",
+  "Fetching creative profile...",
+  "Discovering public projects...",
+  "Analyzing project artifacts & categories...",
+  "Extracting observable design signals...",
+  "Building creative evidence...",
+  "Completed.",
+];
+
 const GITHUB_USERNAME_REGEX = /^[A-Za-z0-9](?:[A-Za-z0-9]|-(?=[A-Za-z0-9])){0,38}$/;
 
 function isValidGitHubUsername(username: string): boolean {
@@ -73,6 +88,14 @@ export function ResumeAnalysisFlow() {
   const [githubResult, setGithubResult] = useState<GitHubAnalysisResult | null>(null);
   const [githubError, setGithubError] = useState<string | null>(null);
 
+  // Behance Analysis State
+  const [behanceUrl, setBehanceUrl] = useState("");
+  const [behanceStatus, setBehanceStatus] = useState<"IDLE" | "ANALYZING" | "COMPLETED" | "ERROR">("IDLE");
+  const [behanceStage, setBehanceStage] = useState<string>("Connecting to Behance...");
+  const [behanceResult, setBehanceResult] = useState<BehanceAnalysisResult | null>(null);
+  const [behanceError, setBehanceError] = useState<string | null>(null);
+  const [behanceDiff, setBehanceDiff] = useState<BehanceEvidenceDiff | null>(null);
+
   const groups = useMemo(
     () =>
       Object.entries(
@@ -89,13 +112,22 @@ export function ResumeAnalysisFlow() {
   const isUsernameInvalid = trimmedUsername.length > 0 && !isValidGitHubUsername(trimmedUsername);
 
   const evidenceEvaluation = useMemo(() => {
-    if (!githubResult || claims.length === 0) return null;
-    return evaluateEvidence(claims, githubResult.evidence, githubResult.repositories);
-  }, [githubResult, claims]);
+    // Merge GitHub + Behance evidence for unified evaluation
+    const allEvidence = [
+      ...(githubResult?.evidence ?? []),
+      ...(behanceResult?.evidence ?? []),
+    ];
+    if (allEvidence.length === 0 || claims.length === 0) return null;
+    return evaluateEvidence(
+      claims,
+      allEvidence,
+      githubResult?.repositories ?? []
+    );
+  }, [githubResult, behanceResult, claims]);
 
   // Persist the real verification session for the dashboard
   useEffect(() => {
-    if (evidenceEvaluation && githubResult && claims.length > 0) {
+    if (evidenceEvaluation && (githubResult || behanceResult) && claims.length > 0) {
       saveVerificationSession({
         candidate: {
           name: candidateName || result?.candidate.name || "Candidate",
@@ -105,11 +137,19 @@ export function ResumeAnalysisFlow() {
         analyzedAt: new Date().toISOString(),
         metadata: result?.metadata,
         claims,
-        githubResult,
+        githubResult: githubResult ?? {
+          analysisRunId: "",
+          profile: { username: "", name: null, profileUrl: "", avatarUrl: "", publicRepoCount: 0, followers: 0, following: 0, createdAt: "", bio: null },
+          summary: { repositoriesAnalyzed: 0, evidenceItems: 0, languagesDetected: [], topSkillHints: [], lastActiveDate: "" },
+          repositories: [],
+          evidence: [],
+        },
         evaluation: evidenceEvaluation,
+        behanceResult: behanceResult ?? undefined,
+        behanceProfileUrl: behanceUrl.trim() || undefined,
       });
     }
-  }, [evidenceEvaluation, githubResult, claims, candidateName, result, trimmedUsername]);
+  }, [evidenceEvaluation, githubResult, behanceResult, claims, candidateName, result, trimmedUsername, behanceUrl]);
 
   function chooseFile(nextFile?: File) {
     setError(undefined);
@@ -120,6 +160,11 @@ export function ResumeAnalysisFlow() {
     setGithubStatus("IDLE");
     setGithubResult(null);
     setGithubError(null);
+    setBehanceUrl("");
+    setBehanceStatus("IDLE");
+    setBehanceResult(null);
+    setBehanceError(null);
+    setBehanceDiff(null);
     setState("IDLE");
 
     if (!nextFile) {
@@ -287,6 +332,86 @@ export function ResumeAnalysisFlow() {
       clearInterval(interval);
     }
   }
+
+  async function verifyWithBehance() {
+    const rawInput = behanceUrl.trim();
+    if (!rawInput) {
+      setBehanceError("Please enter a Behance profile URL (e.g. https://www.behance.net/username).");
+      setBehanceStatus("ERROR");
+      return;
+    }
+
+    setBehanceStatus("ANALYZING");
+    setBehanceError(null);
+
+    let stageIndex = 0;
+    setBehanceStage(BEHANCE_PROGRESS_STAGES[0]);
+    const interval = setInterval(() => {
+      stageIndex += 1;
+      if (stageIndex < BEHANCE_PROGRESS_STAGES.length - 1) {
+        setBehanceStage(BEHANCE_PROGRESS_STAGES[stageIndex]);
+      }
+    }, 700);
+
+    try {
+      const response = await fetch("/api/behance/analyze", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ profileUrl: rawInput }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        let msg = data.error || "Unable to complete Behance analysis.";
+        if (response.status === 404 || data.code === "BEHANCE_PROFILE_NOT_FOUND") {
+          msg = `Behance profile was not found. Please verify the URL and try again.`;
+        } else if (response.status === 503 || data.code === "BEHANCE_ACCESS_UNAVAILABLE") {
+          msg = data.error || "Behance live analysis is unavailable without authorized integration credentials.";
+        }
+        throw new Error(msg);
+      }
+
+      // Check if re-analyzing: calculate diff against previous evidence
+      if (behanceResult && behanceResult.evidence.length > 0) {
+        const diff = diffBehanceEvidence(behanceResult.evidence, data.evidence);
+        setBehanceDiff(diff);
+      } else {
+        setBehanceDiff(null);
+      }
+
+      setBehanceStage(BEHANCE_PROGRESS_STAGES[BEHANCE_PROGRESS_STAGES.length - 1]);
+      setBehanceResult(data as BehanceAnalysisResult);
+      setBehanceStatus("COMPLETED");
+
+      setTimeout(() => {
+        document.getElementById("behance-evidence-results")?.scrollIntoView({ behavior: "smooth" });
+      }, 150);
+    } catch (err) {
+      setBehanceError(err instanceof Error ? err.message : "Behance analysis failed.");
+      setBehanceStatus("ERROR");
+    } finally {
+      clearInterval(interval);
+    }
+  }
+
+  const behanceMatchedClaims = useMemo(() => {
+    if (!behanceResult) return [];
+    return claims.filter((claim) =>
+      behanceResult.evidence.some((e) =>
+        e.skillHints.some((h) => h.toLowerCase() === claim.canonicalSkill.toLowerCase())
+      )
+    );
+  }, [claims, behanceResult]);
+
+  const behanceInsufficientClaims = useMemo(() => {
+    if (!behanceResult) return [];
+    return claims.filter((claim) =>
+      !behanceResult.evidence.some((e) =>
+        e.skillHints.some((h) => h.toLowerCase() === claim.canonicalSkill.toLowerCase())
+      )
+    );
+  }, [claims, behanceResult]);
 
   const processing = state === "PARSING" || state === "EXTRACTING";
 
@@ -673,6 +798,199 @@ export function ResumeAnalysisFlow() {
                 </div>
               </div>
               <GitHubEvidenceView result={githubResult} />
+            </div>
+          )}
+
+          {/* Phase 13 · Behance Creative Evidence Mining Section */}
+          <section id="behance-mining-section" className="mt-8 rounded-xl border border-border bg-card/50 p-6 sm:p-8">
+            <div className="flex flex-wrap items-start justify-between gap-4 border-b border-border pb-5">
+              <div>
+                <div className="flex items-center gap-2">
+                  <p className="text-xs font-semibold tracking-[0.16em] text-purple-400 uppercase">
+                    Phase 13 · Behance Creative Evidence
+                  </p>
+                  <Badge variant="outline" className="border-purple-400/25 bg-purple-400/10 text-purple-300 text-[10px]">
+                    Creative Signals
+                  </Badge>
+                </div>
+                <h3 className="mt-1 text-xl font-semibold">ADD CREATIVE EVIDENCE</h3>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Connect your Behance portfolio to verify creative skills (Graphic Design, UI/UX, Branding, Typography, Illustration, Motion Graphics) against observable project artifacts.
+                </p>
+              </div>
+
+              {behanceStatus === "COMPLETED" && (
+                <Badge variant="outline" className="border-purple-400/25 bg-purple-400/10 text-purple-300 text-xs">
+                  <CheckCircle2 className="size-3.5 mr-1 text-purple-400" /> Creative evidence analyzed
+                </Badge>
+              )}
+            </div>
+
+            {/* Input Bar */}
+            <div className="mt-6 space-y-4">
+              <div>
+                <label htmlFor="behance-url-input" className="mb-2 flex items-center justify-between text-sm font-medium">
+                  <span className="flex items-center gap-2">
+                    <Palette className="size-4 text-purple-400" />
+                    Behance Profile URL
+                  </span>
+                  <span className="text-[10px] text-muted-foreground font-mono">
+                    https://www.behance.net/username
+                  </span>
+                </label>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <Input
+                    id="behance-url-input"
+                    value={behanceUrl}
+                    onChange={(e) => {
+                      setBehanceUrl(e.target.value);
+                      if (behanceStatus === "ERROR") {
+                        setBehanceStatus("IDLE");
+                        setBehanceError(null);
+                      }
+                    }}
+                    placeholder="https://www.behance.net/username"
+                    className="font-mono text-sm bg-background/80"
+                    disabled={behanceStatus === "ANALYZING"}
+                  />
+                  <Button
+                    size="lg"
+                    disabled={state !== "READY" || !behanceUrl.trim() || behanceStatus === "ANALYZING"}
+                    onClick={verifyWithBehance}
+                    className="w-full sm:w-auto bg-purple-600 hover:bg-purple-500 text-white font-medium shadow-sm transition-all min-h-[44px] shrink-0"
+                  >
+                    {behanceStatus === "ANALYZING" ? (
+                      <>
+                        <LoaderCircle className="animate-spin size-4" />
+                        Analyzing Behance...
+                      </>
+                    ) : behanceStatus === "COMPLETED" ? (
+                      <>
+                        <RefreshCw className="size-4" /> Re-analyze Behance
+                      </>
+                    ) : (
+                      <>
+                        <Palette className="size-4" /> Analyze Behance
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </div>
+            </div>
+
+            {/* Re-analysis Diff Banner */}
+            {behanceDiff && (
+              <div className="mt-6 rounded-lg border border-purple-400/30 bg-purple-400/[0.08] p-4 text-xs space-y-2">
+                <div className="flex items-center gap-2 text-purple-200 font-semibold uppercase tracking-wider text-[11px]">
+                  <Sparkles className="size-4 text-purple-300" />
+                  NEW CREATIVE EVIDENCE DETECTED
+                </div>
+                <div className="flex flex-wrap gap-4 text-muted-foreground">
+                  <span>
+                    <strong className="text-foreground">+{behanceDiff.summary.newProjectsCount}</strong> project{behanceDiff.summary.newProjectsCount === 1 ? "" : "s"}
+                  </span>
+                  <span>
+                    <strong className="text-foreground">+{behanceDiff.summary.newCount}</strong> evidence signal{behanceDiff.summary.newCount === 1 ? "" : "s"}
+                  </span>
+                  <span>
+                    <strong className="text-foreground">{behanceDiff.summary.unchangedCount}</strong> unchanged
+                  </span>
+                  {behanceDiff.summary.removedCount > 0 && (
+                    <span>
+                      <strong className="text-foreground">-{behanceDiff.summary.removedCount}</strong> removed
+                    </span>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Loading Progress State */}
+            {behanceStatus === "ANALYZING" && (
+              <div className="mt-6 rounded-lg border border-border bg-card/80 p-5 space-y-3">
+                <div className="flex items-center gap-3">
+                  <LoaderCircle className="animate-spin text-purple-400 size-5" />
+                  <div>
+                    <p className="text-sm font-medium text-foreground">{behanceStage}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">
+                      Examining Behance profile, public projects, categories, and design artifacts.
+                    </p>
+                  </div>
+                </div>
+                <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
+                  <div className="h-full w-full animate-pulse bg-purple-500 rounded-full" />
+                </div>
+              </div>
+            )}
+
+            {/* Error State */}
+            {behanceStatus === "ERROR" && (
+              <div
+                role="alert"
+                className="mt-6 rounded-lg border border-red-400/25 bg-red-400/[0.08] p-5 text-sm text-red-100 space-y-3"
+              >
+                <div className="flex items-start gap-3">
+                  <ShieldAlert className="mt-0.5 size-5 shrink-0 text-red-300" />
+                  <div>
+                    <h4 className="font-semibold text-red-200">Behance Analysis Error</h4>
+                    <p className="mt-1 text-xs text-red-200/90 leading-relaxed">{behanceError}</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 pt-1">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={verifyWithBehance}
+                    className="border-red-400/30 text-red-100 hover:bg-red-400/20"
+                  >
+                    Try Again
+                  </Button>
+                </div>
+              </div>
+            )}
+          </section>
+
+          {/* Behance Factual Creative Evidence Results & Summary (13P, 13Q, 13R) */}
+          {behanceResult && (
+            <div id="behance-evidence-results" className="mt-8 space-y-6">
+              {/* Summary Metrics Bar (13P) */}
+              <div className="rounded-xl border border-purple-400/25 bg-purple-400/[0.06] p-5 space-y-4">
+                <div className="flex items-center justify-between border-b border-purple-400/20 pb-3">
+                  <div className="flex items-center gap-2">
+                    <Palette className="size-4 text-purple-400" />
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-purple-300">
+                      BEHANCE ANALYSIS
+                    </h4>
+                  </div>
+                  <span className="font-mono text-xs text-purple-300/80">
+                    Profile: @{behanceResult.profile.username}
+                  </span>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 text-center">
+                  <div className="p-3 rounded-lg bg-background/50 border border-border">
+                    <p className="text-[10px] uppercase font-semibold text-muted-foreground">Projects Discovered</p>
+                    <p className="text-xl font-bold font-mono text-foreground mt-0.5">{behanceResult.summary.projectsDiscovered}</p>
+                  </div>
+                  <div className="p-3 rounded-lg bg-background/50 border border-border">
+                    <p className="text-[10px] uppercase font-semibold text-muted-foreground">Projects Analyzed</p>
+                    <p className="text-xl font-bold font-mono text-foreground mt-0.5">{behanceResult.summary.projectsAnalyzed}</p>
+                  </div>
+                  <div className="p-3 rounded-lg bg-background/50 border border-border">
+                    <p className="text-[10px] uppercase font-semibold text-muted-foreground">Evidence Extracted</p>
+                    <p className="text-xl font-bold font-mono text-foreground mt-0.5">{behanceResult.summary.evidenceItems}</p>
+                  </div>
+                  <div className="p-3 rounded-lg bg-background/50 border border-border">
+                    <p className="text-[10px] uppercase font-semibold text-muted-foreground">Resume Claims Matched</p>
+                    <p className="text-xl font-bold font-mono text-emerald-400 mt-0.5">{behanceMatchedClaims.length}</p>
+                  </div>
+                  <div className="p-3 rounded-lg bg-background/50 border border-border col-span-2 sm:col-span-1">
+                    <p className="text-[10px] uppercase font-semibold text-muted-foreground">Insufficient Evidence</p>
+                    <p className="text-xl font-bold font-mono text-amber-400 mt-0.5">{behanceInsufficientClaims.length}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Behance Detailed Evidence View */}
+              <BehanceEvidenceView result={behanceResult} />
             </div>
           )}
 

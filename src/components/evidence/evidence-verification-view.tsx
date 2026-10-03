@@ -18,10 +18,10 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { EvidenceEngineResult } from "@/lib/evidence";
-import type { GitHubEvidenceType, SkillStatus } from "@/types";
+import type { SkillStatus } from "@/types";
 
 const EVIDENCE_TYPE_ICONS: Record<
-  GitHubEvidenceType,
+  string,
   { label: string; icon: typeof FileCode2; color: string }
 > = {
   repository_language: {

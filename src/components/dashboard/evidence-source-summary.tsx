@@ -3,24 +3,32 @@
 import { useMemo } from "react";
 import {
   Box,
+  Brush,
+  Eye,
   FileCode2,
   FolderGit2,
   GitCommit,
   Layers,
   Network,
+  Palette,
   Server,
+  Sparkles,
   TestTube2,
+  Type,
+  Wand2,
   Workflow,
 } from "lucide-react";
-import type { GitHubEvidenceItem, GitHubEvidenceType } from "@/types";
+import type { GitHubEvidenceItem } from "@/types";
+import type { BehanceAnalysisResult } from "@/types/behance";
 
 interface EvidenceSourceSummaryProps {
   evidence: GitHubEvidenceItem[];
   repositoryCount: number;
+  behanceResult?: BehanceAnalysisResult;
 }
 
 const EVIDENCE_TYPE_META: Record<
-  GitHubEvidenceType,
+  string,
   { label: string; icon: typeof FileCode2; color: string }
 > = {
   dependency: {
@@ -83,22 +91,88 @@ const EVIDENCE_TYPE_META: Record<
     icon: FileCode2,
     color: "border-[#E7DCD1] bg-white text-[#756B64]",
   },
+  // Behance Creative Evidence Types
+  behance_project: {
+    label: "Behance Projects",
+    icon: Layers,
+    color: "border-purple-400/30 bg-purple-50 text-purple-700",
+  },
+  behance_project_category: {
+    label: "Categories",
+    icon: Eye,
+    color: "border-blue-400/30 bg-blue-50 text-blue-700",
+  },
+  behance_branding: {
+    label: "Branding",
+    icon: Sparkles,
+    color: "border-amber-400/30 bg-amber-50 text-amber-700",
+  },
+  behance_logo_design: {
+    label: "Logo Design",
+    icon: Wand2,
+    color: "border-emerald-400/30 bg-emerald-50 text-emerald-700",
+  },
+  behance_graphic_design: {
+    label: "Graphic Design",
+    icon: Palette,
+    color: "border-rose-400/30 bg-rose-50 text-rose-700",
+  },
+  behance_ui_design: {
+    label: "UI Design",
+    icon: Layers,
+    color: "border-cyan-400/30 bg-cyan-50 text-cyan-700",
+  },
+  behance_ux_design: {
+    label: "UX Design",
+    icon: Eye,
+    color: "border-indigo-400/30 bg-indigo-50 text-indigo-700",
+  },
+  behance_typography: {
+    label: "Typography",
+    icon: Type,
+    color: "border-violet-400/30 bg-violet-50 text-violet-700",
+  },
+  behance_illustration: {
+    label: "Illustration",
+    icon: Brush,
+    color: "border-pink-400/30 bg-pink-50 text-pink-700",
+  },
+  behance_packaging: {
+    label: "Packaging",
+    icon: Layers,
+    color: "border-orange-400/30 bg-orange-50 text-orange-700",
+  },
+  behance_motion: {
+    label: "Motion",
+    icon: Sparkles,
+    color: "border-teal-400/30 bg-teal-50 text-teal-700",
+  },
+  behance_tool_reference: {
+    label: "Design Tools",
+    icon: Wand2,
+    color: "border-slate-400/30 bg-slate-50 text-slate-700",
+  },
 };
 
-export function EvidenceSourceSummary({ evidence, repositoryCount }: EvidenceSourceSummaryProps) {
+export function EvidenceSourceSummary({ evidence, repositoryCount, behanceResult }: EvidenceSourceSummaryProps) {
   // Aggregate counts by evidence type
   const typeCounts = useMemo(() => {
-    const counts: Partial<Record<GitHubEvidenceType, number>> = {};
+    const counts: Record<string, number> = {};
     for (const item of evidence) {
       counts[item.type] = (counts[item.type] || 0) + 1;
     }
     return counts;
   }, [evidence]);
 
-  const activeTypes = Object.entries(typeCounts).filter(([, count]) => (count ?? 0) > 0) as [
-    GitHubEvidenceType,
-    number,
-  ][];
+  const activeTypes = Object.entries(typeCounts).filter(([, count]) => (count ?? 0) > 0);
+
+  const githubEvidenceCount = useMemo(() => {
+    return evidence.filter((e) => !e.provider || e.provider === "github").length;
+  }, [evidence]);
+
+  const behanceEvidenceCount = useMemo(() => {
+    return evidence.filter((e) => e.provider === "behance").length;
+  }, [evidence]);
 
   return (
     <section aria-label="Evidence Sources" className="rounded-2xl border border-[#E7DCD1] bg-white p-6 sm:p-7 shadow-xs space-y-5">
@@ -111,22 +185,36 @@ export function EvidenceSourceSummary({ evidence, repositoryCount }: EvidenceSou
             </h2>
           </div>
           <p className="text-xs text-[#756B64]">
-            Distribution of {evidence.length} factual evidence items across {repositoryCount} public repositories.
+            Distribution of {evidence.length} factual evidence items across {repositoryCount} GitHub repositories
+            {behanceResult ? ` and ${behanceResult.summary.projectsAnalyzed} Behance projects` : ""}.
           </p>
         </div>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-        {/* Repositories Root Card */}
+        {/* GitHub Root Card */}
         <div className="flex items-center gap-3 p-3.5 rounded-xl border border-[#E7DCD1] bg-[#FAF7F2]">
           <div className="p-2 rounded-lg bg-[#F4E2D3] border border-[#E8C5B0] text-[#A95F3D]">
             <FolderGit2 className="size-4" />
           </div>
           <div>
-            <p className="text-xs text-[#756B64] font-medium">Repositories</p>
-            <p className="text-xl font-extrabold font-mono text-[#241914]">{repositoryCount}</p>
+            <p className="text-xs text-[#756B64] font-medium">GitHub ({repositoryCount} repos)</p>
+            <p className="text-xl font-extrabold font-mono text-[#241914]">{githubEvidenceCount}</p>
           </div>
         </div>
+
+        {/* Behance Root Card (if available) */}
+        {behanceResult && (
+          <div className="flex items-center gap-3 p-3.5 rounded-xl border border-purple-300/70 bg-purple-50/50">
+            <div className="p-2 rounded-lg bg-purple-100 border border-purple-200 text-purple-700">
+              <Palette className="size-4" />
+            </div>
+            <div>
+              <p className="text-xs text-[#756B64] font-medium">Behance ({behanceResult.summary.projectsAnalyzed} projects)</p>
+              <p className="text-xl font-extrabold font-mono text-[#241914]">{behanceEvidenceCount}</p>
+            </div>
+          </div>
+        )}
 
         {/* Dynamic Active Signal Categories */}
         {activeTypes.map(([typeKey, count]) => {

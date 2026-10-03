@@ -1,4 +1,4 @@
-export type SkillCategory = "Programming" | "Frontend" | "Backend" | "Database" | "Cloud" | "DevOps" | "Data / AI" | "Tools";
+export type SkillCategory = "Programming" | "Frontend" | "Backend" | "Database" | "Cloud" | "DevOps" | "Data / AI" | "Tools" | "Creative";
 
 export interface TaxonomySkill {
   canonicalName: string;
@@ -17,6 +17,26 @@ export const SKILL_TAXONOMY: readonly TaxonomySkill[] = [
   define("DevOps", "Docker"), define("DevOps", "Kubernetes", ["K8s"]), define("DevOps", "GitHub Actions", ["Github Actions"]), define("DevOps", "Jenkins"), define("DevOps", "Terraform"), define("DevOps", "CI/CD", ["CI CD", "Continuous Integration", "Continuous Delivery"]),
   define("Data / AI", "Pandas"), define("Data / AI", "NumPy", ["Numpy"]), define("Data / AI", "Scikit-learn", ["Scikit Learn", "Sklearn"]), define("Data / AI", "TensorFlow"), define("Data / AI", "PyTorch"), define("Data / AI", "Machine Learning", ["ML"]), define("Data / AI", "Deep Learning"),
   define("Tools", "Git"), define("Tools", "GitHub", ["Github"]), define("Tools", "GitLab"), define("Tools", "REST API", ["RESTful API", "REST APIs"]), define("Tools", "GraphQL"),
+  // Creative Skills
+  define("Creative", "Graphic Design", ["Graphic Designer", "Visual Design"]),
+  define("Creative", "Branding", ["Brand Identity", "Visual Identity", "Brand Design", "Corporate Identity"]),
+  define("Creative", "Logo Design", ["Logo Designer", "Logo Creation"]),
+  define("Creative", "UI Design", ["User Interface", "Interface Design", "UI"]),
+  define("Creative", "UX Design", ["User Experience", "UX"]),
+  define("Creative", "Typography", ["Type Design"]),
+  define("Creative", "Illustration", ["Digital Illustration"]),
+  define("Creative", "Packaging Design", ["Packaging"]),
+  define("Creative", "Motion Graphics", ["Motion Design"]),
+  define("Creative", "Animation", ["Animated Design"]),
+  define("Creative", "Visual Design", ["Visual Designer"]),
+  // Creative Tools
+  define("Creative", "Adobe Photoshop", ["Photoshop"]),
+  define("Creative", "Adobe Illustrator", ["Illustrator"]),
+  define("Creative", "Adobe After Effects", ["After Effects"]),
+  define("Creative", "Figma"),
+  define("Creative", "Blender"),
+  define("Creative", "Canva"),
 ];
 
 export const SKILL_NAMES = SKILL_TAXONOMY.map((skill) => skill.canonicalName);
+

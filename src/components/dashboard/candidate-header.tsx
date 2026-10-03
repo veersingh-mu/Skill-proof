@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, Calendar, ExternalLink, RefreshCw, UserCheck } from "lucide-react";
+import { ArrowLeft, Calendar, ExternalLink, Palette, RefreshCw, UserCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface CandidateHeaderProps {
@@ -10,6 +10,7 @@ interface CandidateHeaderProps {
   analyzedAt: string;
   onResetSession?: () => void;
   isSampleSession?: boolean;
+  behanceProfileUrl?: string;
 }
 
 export function CandidateHeader({
@@ -18,6 +19,7 @@ export function CandidateHeader({
   analyzedAt,
   onResetSession,
   isSampleSession,
+  behanceProfileUrl,
 }: CandidateHeaderProps) {
   const formattedDate = (() => {
     try {
@@ -69,6 +71,22 @@ export function CandidateHeader({
               <ExternalLink className="size-3 text-[#756B64] shrink-0" />
             </a>
 
+            {behanceProfileUrl && (
+              <>
+                <span className="hidden sm:inline text-[#E7DCD1]">•</span>
+                <a
+                  href={behanceProfileUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1.5 text-purple-700 hover:text-purple-900 font-mono font-bold transition-colors break-all"
+                >
+                  <Palette className="size-3.5 text-purple-600 shrink-0" />
+                  Behance
+                  <ExternalLink className="size-3 text-purple-600 shrink-0" />
+                </a>
+              </>
+            )}
+
             <span className="hidden sm:inline text-[#E7DCD1]">•</span>
 
             <span className="inline-flex items-center gap-1.5">
@@ -79,7 +97,7 @@ export function CandidateHeader({
             <span className="hidden sm:inline text-[#E7DCD1]">•</span>
 
             <span className="text-[#2E8B57] font-semibold">
-              Evidence-based technical skill verification
+              Evidence-based skill verification
             </span>
           </div>
         </div>

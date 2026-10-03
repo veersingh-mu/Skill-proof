@@ -21,7 +21,7 @@ import { Button } from "@/components/ui/button";
 import type { GitHubAnalysisResult, GitHubEvidenceType } from "@/types/github";
 
 const EVIDENCE_TYPE_CONFIG: Record<
-  GitHubEvidenceType,
+  string,
   { label: string; icon: typeof FileCode2; color: string }
 > = {
   repository_language: {

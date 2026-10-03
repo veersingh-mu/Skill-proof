@@ -13,7 +13,7 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import type { GitHubEvidenceItem, GitHubEvidenceType } from "@/types";
+import type { GitHubEvidenceItem, UnifiedEvidenceType } from "@/types";
 
 interface SimpleEvidenceCardProps {
   type: "file" | "dependency" | "commit";
@@ -28,7 +28,7 @@ interface FullEvidenceCardProps {
 
 type EvidenceCardProps = SimpleEvidenceCardProps | FullEvidenceCardProps;
 
-function getEvidenceMeta(type: GitHubEvidenceType) {
+function getEvidenceMeta(type: UnifiedEvidenceType | string) {
   switch (type) {
     case "dockerfile":
     case "docker_compose":
@@ -46,6 +46,19 @@ function getEvidenceMeta(type: GitHubEvidenceType) {
     case "dependency":
     case "package_manifest":
       return { label: "Dependency", icon: Box, color: "text-blue-400 border-blue-500/30 bg-blue-500/10" };
+    case "behance_project":
+    case "behance_project_media":
+    case "behance_graphic_design":
+    case "behance_branding":
+    case "behance_logo_design":
+    case "behance_ui_design":
+    case "behance_ux_design":
+    case "behance_typography":
+    case "behance_illustration":
+    case "behance_packaging":
+    case "behance_motion":
+    case "behance_tool_reference":
+      return { label: "Creative Artifact", icon: Layers, color: "text-purple-400 border-purple-500/30 bg-purple-500/10" };
     default:
       return { label: "Technical Artifact", icon: FileCode2, color: "text-zinc-400 border-zinc-700 bg-zinc-800/50" };
   }

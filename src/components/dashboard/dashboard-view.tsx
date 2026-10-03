@@ -93,6 +93,7 @@ export function DashboardView() {
         analyzedAt={analyzedAt}
         onResetSession={handleResetSession}
         isSampleSession={isSample}
+        behanceProfileUrl={session.behanceProfileUrl}
       />
 
       {/* 2 & 3. Verification Summary & Evidence Coverage (Requirements 2 & 3) */}
@@ -131,8 +132,12 @@ export function DashboardView() {
 
       {/* 12. Evidence Sources Breakdown (Requirement 12) */}
       <EvidenceSourceSummary
-        evidence={githubResult.evidence}
-        repositoryCount={githubResult.summary.repositoriesAnalyzed}
+        evidence={[
+          ...(githubResult?.evidence ?? []),
+          ...(session.behanceResult?.evidence ?? []),
+        ]}
+        repositoryCount={githubResult?.summary?.repositoriesAnalyzed ?? 0}
+        behanceResult={session.behanceResult}
       />
     </div>
   );

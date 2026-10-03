@@ -48,7 +48,7 @@ export function ClaimsVsEvidence({ claims, verifications }: ClaimsVsEvidenceProp
           </h2>
         </div>
         <p className="text-xs text-[#756B64]">
-          Visual correlation between unverified resume claims, mined GitHub technical evidence, and deterministic verification results.
+          Visual correlation between unverified resume claims, mined technical and creative evidence, and deterministic verification results.
         </p>
       </div>
 
@@ -60,7 +60,7 @@ export function ClaimsVsEvidence({ claims, verifications }: ClaimsVsEvidenceProp
         </div>
         <div className="col-span-1 text-center font-mono text-[#A95F3D]">→</div>
         <div className="col-span-4 flex items-center gap-1.5">
-          <span>GitHub Activity Evidence</span>
+          <span>Observed Evidence Signals</span>
         </div>
         <div className="col-span-1 text-center font-mono text-[#A95F3D]">→</div>
         <div className="col-span-2 text-right">
@@ -100,7 +100,7 @@ export function ClaimsVsEvidence({ claims, verifications }: ClaimsVsEvidenceProp
                 <ArrowRight className="size-3.5" />
               </div>
 
-              {/* 2. GitHub Evidence */}
+              {/* 2. Mined Evidence */}
               <div className="col-span-4 flex items-center gap-2">
                 {evidenceCount > 0 ? (
                   <div className="flex flex-wrap items-center gap-1.5">
@@ -108,7 +108,7 @@ export function ClaimsVsEvidence({ claims, verifications }: ClaimsVsEvidenceProp
                       {evidenceCount} evidence {evidenceCount === 1 ? "item" : "items"}
                     </span>
                     <span className="text-[#756B64]">
-                      across {repoCount} {repoCount === 1 ? "repo" : "repos"}
+                      across {repoCount} {repoCount === 1 ? "project/repo" : "projects/repos"}
                     </span>
                   </div>
                 ) : (

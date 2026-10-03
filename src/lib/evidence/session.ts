@@ -1,4 +1,5 @@
 import type { GitHubAnalysisResult, ResumeClaim } from "@/types";
+import type { BehanceAnalysisResult } from "@/types/behance";
 import type { EvidenceEngineResult } from "./types";
 
 export const VERIFICATION_SESSION_STORAGE_KEY = "skillproof_active_verification_session";
@@ -17,6 +18,10 @@ export interface CandidateVerificationSession {
   claims: ResumeClaim[];
   githubResult: GitHubAnalysisResult;
   evaluation: EvidenceEngineResult;
+  /** Optional: Behance analysis result if user provided a Behance profile */
+  behanceResult?: BehanceAnalysisResult;
+  /** Optional: Behance profile URL used for analysis */
+  behanceProfileUrl?: string;
 }
 
 /**

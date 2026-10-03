@@ -1,4 +1,5 @@
 import type { GitHubEvidenceType } from "@/types/github";
+import type { BehanceEvidenceType } from "@/types/behance";
 
 /**
  * Deterministic Evidence Weighting Configuration
@@ -29,11 +30,46 @@ export const EVIDENCE_WEIGHTS: Record<GitHubEvidenceType, number> = {
 };
 
 /**
+ * Evidence weights for Behance creative evidence types.
+ * Separated from GitHub weights for clarity; merged at runtime.
+ *
+ * Weight rationale for creative evidence:
+ * - Project + domain-specific signals (branding, logo, UI): moderate-to-strong proof
+ * - Tool references: supporting signal (mentions do not equal mastery)
+ * - Category/description: weak contextual signal
+ */
+export const BEHANCE_EVIDENCE_WEIGHTS: Record<BehanceEvidenceType, number> = {
+  behance_project: 15,
+  behance_project_category: 10,
+  behance_project_description: 10,
+  behance_branding: 30,
+  behance_logo_design: 30,
+  behance_graphic_design: 30,
+  behance_ui_design: 30,
+  behance_ux_design: 30,
+  behance_typography: 25,
+  behance_illustration: 30,
+  behance_packaging: 30,
+  behance_motion: 25,
+  behance_tool_reference: 15,
+};
+
+/**
+ * Combined evidence weight lookup.
+ */
+export function getEvidenceWeight(type: string): number {
+  if (type in EVIDENCE_WEIGHTS) return EVIDENCE_WEIGHTS[type as GitHubEvidenceType];
+  if (type in BEHANCE_EVIDENCE_WEIGHTS) return BEHANCE_EVIDENCE_WEIGHTS[type as BehanceEvidenceType];
+  return 5; // Unknown type fallback
+}
+
+/**
  * Direct technical evidence types:
  * At least one of these is required for a skill to achieve PROVEN status.
  * Pure documentation (README) or commit recency alone can NEVER satisfy this requirement.
  */
-export const STRONG_TECHNICAL_TYPES = new Set<GitHubEvidenceType>([
+export const STRONG_TECHNICAL_TYPES = new Set<string>([
+  // GitHub strong types
   "repository_language",
   "dependency",
   "framework",
@@ -43,14 +79,29 @@ export const STRONG_TECHNICAL_TYPES = new Set<GitHubEvidenceType>([
   "kubernetes_manifest",
   "cloud_configuration",
   "ci_cd",
+  // Behance strong types — domain-specific creative evidence
+  "behance_branding",
+  "behance_logo_design",
+  "behance_graphic_design",
+  "behance_ui_design",
+  "behance_ux_design",
+  "behance_typography",
+  "behance_illustration",
+  "behance_packaging",
+  "behance_motion",
 ]);
 
 /**
  * Weak or contextual evidence types that cannot independently prove technical ability.
  */
-export const WEAK_TYPES = new Set<GitHubEvidenceType>([
+export const WEAK_TYPES = new Set<string>([
   "readme",
   "commit_recency",
+  // Behance weak types — contextual signals only
+  "behance_project",
+  "behance_project_category",
+  "behance_project_description",
+  "behance_tool_reference",
 ]);
 
 /**

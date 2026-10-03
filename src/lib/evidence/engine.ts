@@ -3,7 +3,7 @@ import { normalizeSkill } from "@/lib/resume/normalize";
 import {
   COMMIT_ONLY_MAX_SCORE,
   DIMINISHING_WEIGHTS,
-  EVIDENCE_WEIGHTS,
+  getEvidenceWeight,
   MAX_EVIDENCE_SCORE,
   MULTI_REPO_BONUS_2_REPOS,
   MULTI_REPO_BONUS_3_PLUS_REPOS,
@@ -155,6 +155,7 @@ export function deduplicateEvidence(items: GitHubEvidenceItem[]): GitHubEvidence
  */
 function formatSignalTypes(types: Set<string>): string {
   const labels: Record<string, string> = {
+    // GitHub signal labels
     repository_language: "source code language",
     dependency: "manifest dependencies",
     framework: "framework configuration",
@@ -167,6 +168,20 @@ function formatSignalTypes(types: Set<string>): string {
     package_manifest: "package manifests",
     commit_recency: "recent commit history",
     readme: "project documentation (README)",
+    // Behance signal labels
+    behance_project: "Behance project",
+    behance_project_category: "Behance category tag",
+    behance_project_description: "Behance project description",
+    behance_branding: "branding/identity project",
+    behance_logo_design: "logo design project",
+    behance_graphic_design: "graphic design project",
+    behance_ui_design: "UI design project",
+    behance_ux_design: "UX design project",
+    behance_typography: "typography work",
+    behance_illustration: "illustration project",
+    behance_packaging: "packaging design project",
+    behance_motion: "motion graphics/animation",
+    behance_tool_reference: "creative tool reference",
   };
 
   const formatted = Array.from(types).map((t) => labels[t] || t);
@@ -219,11 +234,14 @@ export function evaluateSkillClaim(
     }
 
     // Default CLAIMED_ONLY (Requirement 4 & Test 3, 8)
+    const hasBehance = rawEvidence.some((e) => e.provider === "behance");
     return {
       skill: canonicalName,
       status: "CLAIMED_ONLY",
       evidenceScore: 0,
-      reason: "No sufficient GitHub evidence was found to verify this resume claim.",
+      reason: hasBehance
+        ? "No sufficient evidence was found across connected platforms to verify this resume claim."
+        : "No sufficient GitHub evidence was found to verify this resume claim.",
       evidenceItems: [],
       repositoryCount: 0,
       distinctSignalTypes: [],
@@ -241,7 +259,7 @@ export function evaluateSkillClaim(
   const repoTypeCounts = new Map<string, number>();
 
   for (const item of matchedEvidence) {
-    const baseWeight = EVIDENCE_WEIGHTS[item.type] ?? 10;
+    const baseWeight = getEvidenceWeight(item.type);
     const repoKey = `${item.repositoryName || "default"}::${item.type}`;
     const previousCount = repoTypeCounts.get(repoKey) || 0;
     repoTypeCounts.set(repoKey, previousCount + 1);
@@ -325,7 +343,10 @@ export function evaluateSkillClaim(
       reason = `${canonicalName} has partial supporting evidence (${signalsSummary}), but lacks the multi-signal depth or repository volume required for full verification.`;
     }
   } else {
-    reason = "No sufficient GitHub evidence was found to verify this resume claim.";
+    const hasBehance = rawEvidence.some((e) => e.provider === "behance");
+    reason = hasBehance
+      ? "No sufficient evidence was found across connected platforms to verify this resume claim."
+      : "No sufficient GitHub evidence was found to verify this resume claim.";
   }
 
   return {

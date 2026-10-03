@@ -52,4 +52,5 @@ export interface MicroTask {
 }
 
 export * from "./github";
+export * from "./behance";
 

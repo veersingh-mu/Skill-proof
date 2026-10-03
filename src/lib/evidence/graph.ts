@@ -47,6 +47,7 @@ export interface RepositoryNodeData {
   description?: string | null;
   language?: string | null;
   stargazersCount?: number;
+  provider?: "github" | "behance";
 }
 
 export interface EvidenceNodeData {
@@ -57,6 +58,7 @@ export interface EvidenceNodeData {
   sourceUrl?: string;
   isStrongTechnical: boolean;
   filePath?: string;
+  provider?: "github" | "behance";
 }
 
 export interface ArtifactNodeData {
@@ -307,9 +309,11 @@ export function buildEvidenceGraph(
         const repoY = skillY + (repoOffsetIndex - (repoGroups.size - 1) / 2) * 110;
         repoOffsetIndex++;
 
+        const isBehanceProject = itemsInRepo.some((item) => item.provider === "behance");
+        const firstItem = itemsInRepo[0];
         const repoMeta = repoMetaMap.get(repoName.toLowerCase());
 
-        // 4A. Repository Node (Column 3: x = 980)
+        // 4A. Repository / Project Node (Column 3: x = 980)
         addNode({
           id: repoId,
           type: "repository",
@@ -317,11 +321,20 @@ export function buildEvidenceGraph(
           data: {
             type: "repository",
             name: repoName,
-            fullName: repoMeta?.fullName || `${githubUsername}/${repoName}`,
-            htmlUrl: repoMeta?.htmlUrl || `https://github.com/${githubUsername}/${repoName}`,
-            description: repoMeta?.description,
-            language: repoMeta?.language,
+            fullName: isBehanceProject
+              ? repoName
+              : (repoMeta?.fullName || `${githubUsername}/${repoName}`),
+            htmlUrl: isBehanceProject
+              ? (firstItem?.sourceUrl || `https://www.behance.net`)
+              : (repoMeta?.htmlUrl || `https://github.com/${githubUsername}/${repoName}`),
+            description: isBehanceProject
+              ? (firstItem?.metadata?.categories
+                  ? `Categories: ${(firstItem.metadata.categories as string[]).join(", ")}`
+                  : null)
+              : repoMeta?.description,
+            language: isBehanceProject ? "Creative Project" : repoMeta?.language,
             stargazersCount: repoMeta?.stargazersCount,
+            provider: isBehanceProject ? "behance" : "github",
           },
         });
 
@@ -356,6 +369,7 @@ export function buildEvidenceGraph(
               sourceUrl: evidenceItem.sourceUrl,
               isStrongTechnical: isStrongSignal,
               filePath: evidenceItem.filePath,
+              provider: evidenceItem.provider || "github",
             },
           });
 
@@ -372,8 +386,11 @@ export function buildEvidenceGraph(
             data: { relationshipType: "evidence", isStrong: isStrongSignal },
           });
 
-          // 4C. Artifact Node (Column 5: x = 1680) - when file or commit exists
-          const artifactKey = evidenceItem.filePath || evidenceItem.commitSha;
+          // 4C. Artifact / Media Node (Column 5: x = 1680) - when file, commit, or media count exists
+          const mediaCount = typeof evidenceItem.metadata?.mediaCount === "number"
+            ? evidenceItem.metadata.mediaCount
+            : undefined;
+          const artifactKey = evidenceItem.filePath || evidenceItem.commitSha || (mediaCount ? `media_${mediaCount}` : undefined);
           if (artifactKey) {
             const artifactId = getArtifactId(repoName, artifactKey);
             addNode({
@@ -382,7 +399,7 @@ export function buildEvidenceGraph(
               position: { x: 1680, y: evidenceY },
               data: {
                 type: "artifact",
-                label: evidenceItem.filePath || `commit: ${evidenceItem.commitSha?.slice(0, 7)}`,
+                label: evidenceItem.filePath || (evidenceItem.commitSha ? `commit: ${evidenceItem.commitSha.slice(0, 7)}` : `${mediaCount} media assets`),
                 filePath: evidenceItem.filePath,
                 commitSha: evidenceItem.commitSha,
                 repositoryName: repoName,
